@@ -5,6 +5,9 @@ class Node:
         self.left_child = left_child
         self.right_child = right_child
 
+def AddToTree():
+    return 0
+
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 text_to_compress = "AAABBCCCCCC"
 
@@ -13,5 +16,4 @@ for keys in text_to_compress:
     symbols_with_propability[keys] = symbols_with_propability.get(keys, 0) + 1
 
 sorted_symbols_with_propability = sorted(symbols_with_propability.items(), key=lambda sort: sort[1])
-
-print ("Count of all characters is :\n " + str(sorted_symbols_with_propability))
+print(sorted_symbols_with_propability[0]+ sorted_symbols_with_propability[0][0])
