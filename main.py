@@ -1,3 +1,10 @@
+class Node:                  
+    def __init__(self, value, propability, left_child, right_child):
+        self.value = value
+        self.propability = propability
+        self.left_child = left_child
+        self.right_child = right_child
+
 text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 
 symbols_with_propability = {}  
