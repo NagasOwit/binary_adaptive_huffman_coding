@@ -16,4 +16,4 @@ for keys in text_to_compress:
     symbols_with_propability[keys] = symbols_with_propability.get(keys, 0) + 1
 
 sorted_symbols_with_propability = sorted(symbols_with_propability.items(), key=lambda sort: sort[1])
-print(sorted_symbols_with_propability[0]+ sorted_symbols_with_propability[0][0])
+print(str(sorted_symbols_with_propability[0][0]) + " " + str(sorted_symbols_with_propability[0][1]))
