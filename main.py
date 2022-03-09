@@ -1,18 +1,23 @@
+from asyncio.windows_events import NULL
+
+
 class Node:                  
-    def __init__(self, value, propability, left_child, right_child):
+    def __init__(self, value, left_child, right_child):
         self.value = value
-        self.propability = propability
         self.left_child = left_child
         self.right_child = right_child
 
-def MakeTree(nodes):
+def Recalculate(tree):
     return 0
+
+def Compress(nodes):    
+    tree = Node("",0,0,0) #Epsilon, počáteční kořen
+    while(len(nodes) > 0): 
+        if False: #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj TODO funkce na prohledání stromu, zda je symbol přítomen
+            NULL
+        else: #přiřaď a připočti výskyt do větve
+            NULL
+            tree = Recalculate(tree)
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 text_to_compress = "AAABBCCCCCC"
-
-symbols_with_propability = {}  
-for keys in text_to_compress:
-    symbols_with_propability[keys] = symbols_with_propability.get(keys, 0) + 1
-
-nodes = sorted(symbols_with_propability.items(), key=lambda sort: sort[1])
