@@ -1,10 +1,11 @@
 from asyncio.windows_events import NULL
 
 class Node:                  
-    def __init__(self, value, left_child, right_child):
+    def __init__(self, value, left_child, right_child, count):
         self.value = value
         self.left_child = left_child
         self.right_child = right_child
+        self.count = count
 
 def Recalculate(tree):
     while (tree != null):
