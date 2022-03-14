@@ -17,14 +17,18 @@ def Recalculate(tree):
     tree.value += 1
     return tree
 
-def Compress(nodes):    
+def Compress(input):
+
+    symbol_list = [] #list of symbols
     tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
-    while(len(nodes) > 0): 
-        if False: #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj TODO funkce na prohledání stromu, zda je symbol přítomen
+    f = open("compressed_file.txt", "x")
+
+    for element in input:
+        if (not element in symbol_list): #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj
             NULL
         else: #přiřaď a připočti výskyt do větve
-            NULL
             tree = Recalculate(tree)
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-text_to_compress = "0101111100001100100010010000011111001001001001110011111010"
+numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
+text_to_compress = "AABBCCCVDDBBCCVVAA"
