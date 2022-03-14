@@ -8,7 +8,7 @@ class Node:
         self.count = count
 
 def Recalculate(tree):
-    while (tree != null):
+    while (tree.value != ""):
         if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
             #switch values
             NULL
@@ -17,7 +17,7 @@ def Recalculate(tree):
     return tree
 
 def Compress(nodes):    
-    tree = Node("",0,0,0) #Epsilon, počáteční kořen
+    tree = Node("", 0, Node(), Node(), 0) #Epsilon, počáteční kořen
     while(len(nodes) > 0): 
         if False: #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj TODO funkce na prohledání stromu, zda je symbol přítomen
             NULL
