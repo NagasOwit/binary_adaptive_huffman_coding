@@ -1,11 +1,12 @@
 from asyncio.windows_events import NULL
 
 class Node:                  
-    def __init__(self, value, left_child, right_child, count):
+    def __init__(self, value, left_child, right_child, count, index):
         self.value = value
         self.left_child = left_child
         self.right_child = right_child
         self.count = count
+        self.index = index
 
 def Recalculate(tree):
     while (tree.value != ""):
@@ -17,7 +18,7 @@ def Recalculate(tree):
     return tree
 
 def Compress(nodes):    
-    tree = Node("", 0, Node(), Node(), 0) #Epsilon, počáteční kořen
+    tree = Node("", 0, Node(), Node(), 0, 1) #Epsilon, počáteční kořen
     while(len(nodes) > 0): 
         if False: #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj TODO funkce na prohledání stromu, zda je symbol přítomen
             NULL
