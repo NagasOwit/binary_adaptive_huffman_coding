@@ -1,7 +1,8 @@
-from asyncio.windows_events import NULL
+symbol_list = [] #list of symbols
 
 class Node:                  
     def __init__(self, value, left_child, right_child, count, index):
+
         self.value = value
         self.left_child = left_child
         self.right_child = right_child
@@ -12,20 +13,22 @@ def Recalculate(tree):
     while (tree.value != ""):
         if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
             #switch values
-            NULL
+            pass
         tree.value += 1
     tree.value += 1
     return tree
 
 def Compress(input):
 
-    symbol_list = [] #list of symbols
     tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
-    f = open("compressed_file.txt", "x")
+    compressed_file = open("compressed_file.txt", "w")
 
     for element in input:
+
         if (not element in symbol_list): #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj
-            NULL
+            symbol_list.append(element)
+            compressed_file.write(element)
+
         else: #přiřaď a připočti výskyt do větve
             tree = Recalculate(tree)
 
