@@ -1,6 +1,5 @@
 from asyncio.windows_events import NULL
 
-
 class Node:                  
     def __init__(self, value, left_child, right_child):
         self.value = value
@@ -8,7 +7,13 @@ class Node:
         self.right_child = right_child
 
 def Recalculate(tree):
-    return 0
+    while (tree != null):
+        if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
+            #switch values
+            NULL
+        tree.value += 1
+    tree.value += 1
+    return tree
 
 def Compress(nodes):    
     tree = Node("",0,0,0) #Epsilon, počáteční kořen
@@ -20,4 +25,4 @@ def Compress(nodes):
             tree = Recalculate(tree)
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-text_to_compress = "AAABBCCCCCC"
+text_to_compress = "AAABBCCCCCCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVVVVVVVVVVVVVVCCCCCCCCCCCCCCCCCAAAAAAAAAAABBBBABBBACCV"
