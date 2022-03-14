@@ -18,7 +18,7 @@ def Recalculate(tree):
     return tree
 
 def Compress(nodes):    
-    tree = Node("", 0, Node(), Node(), 0, 1) #Epsilon, počáteční kořen
+    tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
     while(len(nodes) > 0): 
         if False: #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj TODO funkce na prohledání stromu, zda je symbol přítomen
             NULL
