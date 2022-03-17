@@ -54,5 +54,6 @@ def Test():
     for element in text_to_compress:
         AddNewSymbolToTree(element)
     print(tree.root.symbol)
+    print(tree.escape_symbol.parent.symbol)
 
 Test()
