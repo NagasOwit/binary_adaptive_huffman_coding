@@ -10,8 +10,8 @@ class Node:
 
 class HuffmanTree:
     def __init__(self):
-        root = Node("", None, None, None, 0, 1)
-        escape_symbol = root #reference na poslední symbol na jednoduché přidávání
+        escape_symbol = Node("", None, None, None, 0, 1)
+        root = escape_symbol
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, počáteční kořen
