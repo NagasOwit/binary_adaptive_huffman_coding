@@ -27,9 +27,7 @@ def Recalculate(new_symbol):
 
     if (new_symbol):
         AddNewSymbolToTree()
-        pass
-        
-
+        pass  
     while (tree.value != ""):
         if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
             #switch values
@@ -39,17 +37,12 @@ def Recalculate(new_symbol):
     return tree
 
 def Compress(input):
-
     compressed_file = open("compressed_file.txt", "w")
-
     for element in input:
-
-        new_symbol = not element in symbol_list
-
+        new_symbol = not element in symbol_list        
         if (new_symbol): #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj
             symbol_list.append(element)
             compressed_file.write(element)
-
         else: #přiřaď a připočti výskyt do větve
             compressed_file.write(element)
         
