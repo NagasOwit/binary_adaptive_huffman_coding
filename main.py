@@ -8,19 +8,16 @@ class Node:
         self.count = count
         self.index = index
 
-symbol_list = [] #list of symbols
-tree = Node("", None, None, None, 0, 1) #Epsilon, počáteční kořen
+class HuffmanTree:
+    def __init__(self):
+        root = Node("", None, None, None, 0, 1)
+        escape_symbol = root
 
-def SearchTree(node):
-     
-    if node is ""  or node.count == 0:
-        return node
-    
-    else:
-        return SearchTree(node.right_child)
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, počáteční kořen
 
 def AddNewSymbolToTree():
-    pass
+    tree.escape_symbol = Node("", None, None, None, 0, 1)
     
 
 def Recalculate(new_symbol):
