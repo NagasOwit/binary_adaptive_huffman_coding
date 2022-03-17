@@ -1,7 +1,7 @@
 class Node:                  
-    def __init__(self, data, parent, left_child, right_child, count, index):
+    def __init__(self, symbol, parent, left_child, right_child, count, index):
 
-        self.data = data
+        self.symbol = symbol
         self.parent = parent
         self.left_child = left_child
         self.right_child = right_child
@@ -11,13 +11,17 @@ class Node:
 class HuffmanTree:
     def __init__(self):
         root = Node("", None, None, None, 0, 1)
-        escape_symbol = root
+        escape_symbol = root #reference na poslední symbol na jednoduché přidávání
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, počáteční kořen
 
-def AddNewSymbolToTree():
-    tree.escape_symbol = Node("", None, None, None, 0, 1)
+def AddNewSymbolToTree(symbol):
+    new_node = tree.escape_symbol
+    new_node.symbol = symbol
+    new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
+    tree.escape_symbol = Node("", new_node, None, None, 0, new_node.index + 2)
+    new_node.right_child =  tree.escape_symbol
     
 
 def Recalculate(new_symbol):
