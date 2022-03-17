@@ -1,14 +1,14 @@
-symbol_list = [] #list of symbols
-
 class Node:                  
-    def __init__(self, value, left_child, right_child, count, index):
+    def __init__(self, data, parent, left_child, right_child, count, index):
 
-        self.value = value
+        self.data = data
+        self.parent = None
         self.left_child = left_child
         self.right_child = right_child
         self.count = count
         self.index = index
 
+symbol_list = [] #list of symbols
 tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
 
 def SearchTree(node):
