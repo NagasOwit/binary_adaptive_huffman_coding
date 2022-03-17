@@ -1,6 +1,5 @@
 class Node:                  
     def __init__(self, symbol, parent, left_child, right_child, count, index):
-
         self.symbol = symbol
         self.parent = parent
         self.left_child = left_child
@@ -9,9 +8,8 @@ class Node:
         self.index = index
 
 class HuffmanTree:
-    def __init__(self):
-        escape_symbol = Node("", None, None, None, 0, 1)
-        root = escape_symbol
+    escape_symbol = Node("", None, None, None, 0, 1)
+    root = escape_symbol
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, počáteční kořen
@@ -25,7 +23,6 @@ def AddNewSymbolToTree(symbol):
     
 
 def Recalculate(new_symbol):
-
     if (new_symbol):
         AddNewSymbolToTree()
         pass  
@@ -52,3 +49,10 @@ def Compress(input):
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
 text_to_compress = "barbaraabarboraubaru"
+
+def Test():
+    for element in text_to_compress:
+        AddNewSymbolToTree(element)
+    print(tree.root.symbol)
+
+Test()
