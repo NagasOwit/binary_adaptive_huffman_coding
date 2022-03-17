@@ -9,9 +9,25 @@ class Node:
         self.count = count
         self.index = index
 
-def Recalculate(tree, new_symbol):
+tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
+
+def SearchTree(node):
+     
+    if node is ""  or node.count == 0:
+        return node
+    
+    else:
+        return SearchTree(node.right_child)
+
+def AddNewSymbolToTree():
+    pass
+    
+
+def Recalculate(new_symbol):
 
     if (new_symbol):
+        AddNewSymbolToTree()
+        pass
         
 
     while (tree.value != ""):
@@ -24,7 +40,6 @@ def Recalculate(tree, new_symbol):
 
 def Compress(input):
 
-    tree = Node("", Node(), Node(), 0, 1) #Epsilon, počáteční kořen
     compressed_file = open("compressed_file.txt", "w")
 
     for element in input:
@@ -38,7 +53,7 @@ def Compress(input):
         else: #přiřaď a připočti výskyt do větve
             compressed_file.write(element)
         
-        tree = Recalculate(tree, new_symbol)
+        Recalculate(new_symbol)
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
