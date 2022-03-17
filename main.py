@@ -24,7 +24,6 @@ def AddNewSymbolToTree(symbol):
 
 def Recalculate(new_symbol):
     if (new_symbol):
-        AddNewSymbolToTree()
         pass  
     while (tree.value != ""):
         if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
@@ -40,7 +39,8 @@ def Compress(input):
         new_symbol = not element in symbol_list        
         if (new_symbol): #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj
             symbol_list.append(element)
-            compressed_file.write(element)
+            AddNewSymbolToTree(element)
+            compressed_file.write(element) #TODO zakódování není dobře, musí být kompinace 0 a 1
         else: #přiřaď a připočti výskyt do větve
             compressed_file.write(element)
         
