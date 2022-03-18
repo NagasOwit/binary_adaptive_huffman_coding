@@ -14,7 +14,7 @@ class HuffmanTree:
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
-tree_list = [Node("", None, None, None, 0, 0, "")] #list containing the Huffman tree
+tree_list = [{"symbol":"", "index": 0}] #list containing the Huffman tree
 
 def AdjustTreeViaTraversal(node, code):
     if node:
@@ -23,11 +23,17 @@ def AdjustTreeViaTraversal(node, code):
         AdjustTreeViaTraversal(node.right_child, code + "1")
 
 def AddNewSymbolToTree(symbol):
+
     new_node = tree.escape_symbol
     new_node.symbol = symbol
     new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1, new_node.code + "0")
     tree.escape_symbol = Node("", new_node, None, None, 0, new_node.index + 2, new_node.code + "1")
     new_node.right_child =  tree.escape_symbol
+
+    tree_list[new_node.index] = {"symbol": new_node.symbol, "index": new_node.index}
+    tree_list[new_node.index] = {"symbol": symbol, "index": new_node.index + 1}
+    tree_list[new_node.index] = {"symbol": "", "index": new_node.index + 2}
+    
     return new_node.right_child.code
     
 
