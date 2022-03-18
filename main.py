@@ -9,12 +9,12 @@ class Node:
         self.code = code
 
 class HuffmanTree:
-    escape_symbol = Node("", None, None, None, 0, 1, "")
+    escape_symbol = Node("", None, None, None, 0, 0, "")
     root = escape_symbol
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
-tree_list = [] #list containing the Huffman tree
+tree_list = [Node("", None, None, None, 0, 0, "")] #list containing the Huffman tree
 
 def AdjustTreeViaTraversal(node, code):
     if node:
@@ -58,10 +58,16 @@ def Compress(input):
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
 text_to_compress = "barbaraabarboraubaru"
 
+def TestTraversal(node):
+    if node:
+        print(node.symbol)
+        print(node.index)
+        TestTraversal(node.left_child)
+        TestTraversal(node.right_child)
+
 def Test():
     for element in text_to_compress:
         AddNewSymbolToTree(element)
-    print(tree.root.symbol)
-    print(tree.escape_symbol.parent.symbol)
 
 Test()
+TestTraversal(tree.root)
