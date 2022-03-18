@@ -16,6 +16,12 @@ symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 tree_list = [] #list containing the Huffman tree
 
+def AdjustTreeViaTraversal(node, code):
+    if node:
+        node.code += code
+        AdjustTreeViaTraversal(node.left_child, code + "0")
+        AdjustTreeViaTraversal(node.right_child, code + "1")
+
 def AddNewSymbolToTree(symbol):
     new_node = tree.escape_symbol
     new_node.symbol = symbol
