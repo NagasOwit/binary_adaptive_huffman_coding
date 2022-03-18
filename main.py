@@ -13,8 +13,8 @@ class HuffmanTree:
     root = escape_symbol
 
 symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, počáteční kořen
-tree_list = []
+tree = HuffmanTree() #Epsilon, starts as root
+tree_list = [] #list containing the Huffman tree
 
 def AddNewSymbolToTree(symbol):
     new_node = tree.escape_symbol
@@ -39,14 +39,13 @@ def Compress(input):
     compressed_file = open("compressed_file.txt", "w")
     for element in input:
         new_symbol = not element in symbol_list        
-        if (new_symbol): #pokud se jedná o nový symbol, dej jej na místo Epsilon a zakóduj
+        if (new_symbol): #if the symbol is new, create new node and encode the symbol
             symbol_list.append(element)
             AddNewSymbolToTree(element)
-            compressed_file.write(element) #TODO zakódování není dobře, musí být kompinace 0 a 1
-        else: #přiřaď a připočti výskyt do větve
-            compressed_file.write(element)
-        
-        Recalculate(new_symbol)
+            compressed_file.write(element) #TODO
+        else: #increase occurrence of the symbol in the tree
+            compressed_file.write(element)        
+        Recalculate(new_symbol) #adjust the tree if it was changed
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
