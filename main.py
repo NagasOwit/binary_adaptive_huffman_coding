@@ -35,7 +35,10 @@ def AddNewSymbolToTree(symbol):
     tree_list[new_node.index] = {"symbol": "", "index": new_node.index + 2}
     
     return new_node.right_child.code
-    
+
+def IncreaseOccurence(symbol):
+    pass
+
 
 def Recalculate(new_symbol):
     if (new_symbol):
@@ -57,6 +60,7 @@ def Compress(input):
             element += AddNewSymbolToTree(element)
             compressed_file.write(element)
         else: #increase occurrence of the symbol in the tree
+            IncreaseOccurence(element)
             compressed_file.write(element)        
         Recalculate(new_symbol) #adjust the tree if it was changed
 
