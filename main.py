@@ -1,4 +1,5 @@
-class Node:                  
+class Node:
+
     def __init__(self, symbol, parent, left_child, right_child, count, index):
         self.symbol = symbol
         self.parent = parent
@@ -23,10 +24,8 @@ def AddNewSymbolToTree(symbol):
     new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
-    
-    return new_node.right_child
 
-def IncreaseOccurence(symbol, node, outputcode):
+def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
 
     if (node.symbol == symbol):
         outputcode += "0"
@@ -35,11 +34,11 @@ def IncreaseOccurence(symbol, node, outputcode):
         return outputcode
     else:
         outputcode += "1"
-        IncreaseOccurence(symbol, node.right_child, outputcode)
+        IncreaseOccurenceAndReturnCode(symbol, node.right_child, outputcode)
 
 
 def Recalculate(new_symbol):
-    
+
     if (new_symbol):
         pass  
     while (tree.value != ""):
