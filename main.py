@@ -20,16 +20,13 @@ def RecalculateTree(node):
 
 def ReturnCodeOfNewSymbol(node, outputcode):
 
-    return "-why won't it work-"
+    if (node.right_child is None):
+       return ""
 
-# def ReturnCodeOfNewSymbol(node, outputcode):
-
-#     outputcode += "1"
-#     if (node.right_child is None):
-#         return outputcode
-
-#     else:
-#         ReturnCodeOfNewSymbol(node.right_child, outputcode)
+    else:
+        return outputcode  + "1" + ReturnCodeOfNewSymbol(node.right_child, outputcode)
+    
+    
 
 def AddNewSymbolToTree(symbol):
 
@@ -42,13 +39,12 @@ def AddNewSymbolToTree(symbol):
 def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
 
     if (node.left_child.symbol == symbol):
-        outputcode += "0"
         node.left_child.count += 1
         RecalculateTree(node)
-        return outputcode
+        return "0"
+        
     else:
-        outputcode += "1"
-        IncreaseOccurenceAndReturnCode(symbol, node.right_child, outputcode)
+        return outputcode + "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child, outputcode)
 
 def Compress(input):
 
