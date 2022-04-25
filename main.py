@@ -18,8 +18,21 @@ tree = HuffmanTree() #Epsilon, starts as root
 def RecalculateTree(node):
     pass
 
+def ReturnCodeOfNewSymbol(last_symbol, node, outputcode):
+
+    outputcode += "1"
+
+    if (node.left_child.code == last_symbol):
+        return outputcode
+
+    else:
+        ReturnCodeOfNewSymbol(last_symbol, node, outputcode)
+
+
+
 def AddNewSymbolToTree(symbol):
 
+    symbol_list.append(symbol)    
     new_node = tree.escape_symbol
     new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
@@ -36,39 +49,20 @@ def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
         outputcode += "1"
         IncreaseOccurenceAndReturnCode(symbol, node.right_child, outputcode)
 
-
-def Recalculate(new_symbol):
-
-    if (new_symbol):
-        pass  
-    while (tree.value != ""):
-        if (tree.left_child.value >= tree.value or tree.right_child.value >= tree.value):
-            #switch values
-            pass
-        tree.value += 1
-    tree.value += 1
-    return tree
-
 def Compress(input):
 
     compressed_file = open("compressed_file.txt", "w")
-    for element in input:
+    for element in input:        
         new_symbol = not element in symbol_list        
-        if (new_symbol): #if the symbol is new, create new node and encode the symbol
-            symbol_list.append(element)
-            element += AddNewSymbolToTree(element)
+        if (new_symbol):
+            compressed_file.write(ReturnCodeOfNewSymbol(tree.escape_symbol.parent.left_child.symbol, tree, "")) 
             compressed_file.write(element)
-        else: #increase occurrence of the symbol in the tree
-            IncreaseOccurence(element)
-            compressed_file.write(element)        
-        Recalculate(new_symbol) #adjust the tree if it was changed
+            AddNewSymbolToTree(element)
+        else:
+            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree, ""))
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
 text_to_compress = "barbaraabarboraubaru"
 
-def Test():
-    for element in text_to_compress:
-        AddNewSymbolToTree(element)
-
-Test()
+Compress(text_to_compress)
