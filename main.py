@@ -14,25 +14,32 @@ class HuffmanTree:
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 
-def AdjustTreeViaTraversal(node, code):
+def RecalculateTree(node):
     pass
 
 def AddNewSymbolToTree(symbol):
 
     new_node = tree.escape_symbol
-    new_node.symbol = symbol
     new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
-    tree.escape_symbol = Node("", new_node, None, None, 0, new_node.index + 2)
-    new_node.right_child =  tree.escape_symbol
+    new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
+    tree.escape_symbol = new_node.right_child
     
-    return new_node.right_child.code
+    return new_node.right_child
 
-def IncreaseOccurence(symbol, node):
+def IncreaseOccurence(symbol, node, outputcode):
+
     if (node.symbol == symbol):
+        outputcode += "0"
         node.left_child.count += 1
+        RecalculateTree(node)
+        return outputcode
+    else:
+        outputcode += "1"
+        IncreaseOccurence(symbol, node.right_child, outputcode)
 
 
 def Recalculate(new_symbol):
+    
     if (new_symbol):
         pass  
     while (tree.value != ""):
@@ -44,6 +51,7 @@ def Recalculate(new_symbol):
     return tree
 
 def Compress(input):
+
     compressed_file = open("compressed_file.txt", "w")
     for element in input:
         new_symbol = not element in symbol_list        
