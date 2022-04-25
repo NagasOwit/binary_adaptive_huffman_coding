@@ -9,7 +9,7 @@ class Node:
         self.index = index
 
 class HuffmanTree:
-    escape_symbol = Node("", None, None, None, 0, 0, "")
+    escape_symbol = Node("", None, None, None, 0, 0)
     root = escape_symbol
 
 symbol_list = [] #list of symbols
@@ -18,17 +18,18 @@ tree = HuffmanTree() #Epsilon, starts as root
 def RecalculateTree(node):
     pass
 
-def ReturnCodeOfNewSymbol(last_symbol, node, outputcode):
+def ReturnCodeOfNewSymbol(node, outputcode):
 
-    outputcode += "1"
+    return "-why won't it work-"
 
-    if (node.left_child.code == last_symbol):
-        return outputcode
+# def ReturnCodeOfNewSymbol(node, outputcode):
 
-    else:
-        ReturnCodeOfNewSymbol(last_symbol, node, outputcode)
+#     outputcode += "1"
+#     if (node.right_child is None):
+#         return outputcode
 
-
+#     else:
+#         ReturnCodeOfNewSymbol(node.right_child, outputcode)
 
 def AddNewSymbolToTree(symbol):
 
@@ -40,7 +41,7 @@ def AddNewSymbolToTree(symbol):
 
 def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
 
-    if (node.symbol == symbol):
+    if (node.left_child.symbol == symbol):
         outputcode += "0"
         node.left_child.count += 1
         RecalculateTree(node)
@@ -52,17 +53,22 @@ def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
 def Compress(input):
 
     compressed_file = open("compressed_file.txt", "w")
+    # temporary testing start
+    compressed_file.write("t1")
+    AddNewSymbolToTree("t")
+    # temporary testing end
+
     for element in input:        
         new_symbol = not element in symbol_list        
         if (new_symbol):
-            compressed_file.write(ReturnCodeOfNewSymbol(tree.escape_symbol.parent.left_child.symbol, tree, "")) 
             compressed_file.write(element)
+            compressed_file.write(ReturnCodeOfNewSymbol(tree.root, ""))
             AddNewSymbolToTree(element)
         else:
-            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree, ""))
+            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root, ""))
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
-text_to_compress = "barbaraabarboraubaru"
+text_to_compress = "om marta at"
 
 Compress(text_to_compress)
