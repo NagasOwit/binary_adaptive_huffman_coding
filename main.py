@@ -16,7 +16,7 @@ symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 
 def RecalculateTree(node, node_added):
-    
+
     if (node.parent is None):
         return
     elif (node_added.count > node.parent.left_child.count):
@@ -50,7 +50,7 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
 
     if (node.left_child.symbol == symbol):
         node.left_child.count += 1
-        RecalculateTree(node)
+        RecalculateTree(node, node.left_child)
         return "0"
         
     else:
@@ -58,14 +58,13 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
 
 def Compress(input):
 
-    AddNewSymbolToTree("") #Epsilon symbol initialization
     compressed_file = open("compressed_file.txt", "w")
 
     for element in input:        
         new_symbol = not element in symbol_list        
         if (new_symbol):
-            compressed_file.write(element)
             compressed_file.write(ReturnCodeOfNewSymbol(tree.root))
+            compressed_file.write(element)
             AddNewSymbolToTree(element)
         else:
             compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root))
