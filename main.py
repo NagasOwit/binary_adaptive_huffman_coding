@@ -12,9 +12,6 @@ class HuffmanTree:
     escape_symbol = Node("", None, None, None, 0, 0)
     root = escape_symbol
 
-symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
-
 def RecalculateTree(node, node_added):
 
     if (node.parent is None):
@@ -35,8 +32,6 @@ def ReturnCodeOfNewSymbol(node):
 
     else:
         return "1" + ReturnCodeOfNewSymbol(node.right_child)
-    
-    
 
 def AddNewSymbolToTree(symbol):
 
@@ -56,9 +51,6 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
     else:
         return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
-def Decompress(input):
-    
-
 def Compress(input):
 
     compressed_file = open("compressed_file", "wb")
@@ -72,8 +64,34 @@ def Compress(input):
         else:
             compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
 
+def Decompress(input):
+
+    uncompressed_file = open("uncompressed_file", "wb")
+
+    for element in input:        
+            new_symbol = not element in symbol_list        
+            if (new_symbol):
+                uncompressed_file.write(ReturnCodeOfNewSymbol(tree.root).encode())
+                uncompressed_file.write(element.encode())
+                AddNewSymbolToTree(element)
+            else:
+                uncompressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
+
+#Testing part of the application
+
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, starts as root
+
 #text_to_compress = open("fullBible.txt", "r").read()
 text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 #text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
+
+#text_to_compress = open("fullBible.txt", "r").read()
+text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+#text_to_compress = "tom marta at"
+
+
+compressed_file = open("compressed_file", "r").read()
+Decompress(compressed_file)
