@@ -69,8 +69,8 @@ def Compress(input):
         else:
             compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root))
 
+#text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
 text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
