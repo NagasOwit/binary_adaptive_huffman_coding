@@ -15,8 +15,18 @@ class HuffmanTree:
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 
-def RecalculateTree(node):
-    pass
+def RecalculateTree(node, node_added):
+    
+    if (node.parent is None):
+        return
+    elif (node_added.count > node.parent.left_child.count):
+        node.left_child = node.parent.left_child
+        node.left_child.parent = node
+        node.parent.left_child = node_added
+        node_added.parent = node.parent
+        RecalculateTree(node.parent, node_added)
+    else:
+        return
 
 def ReturnCodeOfNewSymbol(node):
 
