@@ -75,24 +75,30 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
-s = "t1o11m111 1101111a11111r101111011110110110"
-i = 0
-buffer = bytearray()
-while i < len(s):
-    buffer.append( int(s[i:i+8], 2) )
-    i += 8
-
-# now write your buffer to a file
-with open("uncompressed_file", 'bw') as f:
-    f.write(buffer)
-
-
-
-
+# initializing string 
+test_str = "t1o11m111 1101111a11111r101111011110110110"
+  
+# printing original string 
+print("The original string is : " + str(test_str))
+  
+# using join() + ord() + format()
+# Converting String to binary
+res = ''.join(format(ord(i), '08b') for i in test_str)
+  
+# printing result 
+print("The string after binary conversion : " + str(res))
 
 
+# s = "111111110111111111101111011110110110"
+# i = 0
+# buffer = bytearray()
+# while i < len(s):
+#     buffer.append( int(s[i:i+8], 2) )
+#     i += 8
 
-
+# # now write your buffer to a file
+# with open("uncompressed_file", 'bw') as f:
+#     f.write(buffer)
 
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
