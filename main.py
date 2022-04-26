@@ -64,34 +64,40 @@ def Compress(input):
         else:
             compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
 
-def Decompress(input):
-
-    uncompressed_file = open("uncompressed_file", "wb")
-
-    for element in input:        
-            new_symbol = not element in symbol_list        
-            if (new_symbol):
-                uncompressed_file.write(ReturnCodeOfNewSymbol(tree.root).encode())
-                uncompressed_file.write(element.encode())
-                AddNewSymbolToTree(element)
-            else:
-                uncompressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
-
 #Testing part of the application
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-#text_to_compress = "tom marta at"
+#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
+s = "t1o11m111 1101111a11111r101111011110110110"
+i = 0
+buffer = bytearray()
+while i < len(s):
+    buffer.append( int(s[i:i+8], 2) )
+    i += 8
+
+# now write your buffer to a file
+with open("uncompressed_file", 'bw') as f:
+    f.write(buffer)
+
+
+
+
+
+
+
+
+
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 #text_to_compress = "tom marta at"
 
 
-compressed_file = open("compressed_file", "r").read()
-Decompress(compressed_file)
+# compressed_file = open("compressed_file", "r").read()
+# Decompress(compressed_file)
