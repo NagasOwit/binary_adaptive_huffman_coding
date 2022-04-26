@@ -56,21 +56,24 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
     else:
         return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
+def Decompress(input):
+    
+
 def Compress(input):
 
-    compressed_file = open("compressed_file.txt", "w")
+    compressed_file = open("compressed_file", "wb")
 
     for element in input:        
         new_symbol = not element in symbol_list        
         if (new_symbol):
-            compressed_file.write(ReturnCodeOfNewSymbol(tree.root))
-            compressed_file.write(element)
+            compressed_file.write(ReturnCodeOfNewSymbol(tree.root).encode())
+            compressed_file.write(element.encode())
             AddNewSymbolToTree(element)
         else:
-            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root))
+            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
 
 #text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-text_to_compress = "tom marta at"
+text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+#text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
