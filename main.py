@@ -18,13 +18,13 @@ tree = HuffmanTree() #Epsilon, starts as root
 def RecalculateTree(node):
     pass
 
-def ReturnCodeOfNewSymbol(node, outputcode):
+def ReturnCodeOfNewSymbol(node):
 
     if (node.right_child is None):
        return ""
 
     else:
-        return outputcode  + "1" + ReturnCodeOfNewSymbol(node.right_child, outputcode)
+        return "1" + ReturnCodeOfNewSymbol(node.right_child)
     
     
 
@@ -36,7 +36,7 @@ def AddNewSymbolToTree(symbol):
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
 
-def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
+def IncreaseOccurenceAndReturnCode(symbol, node):
 
     if (node.left_child.symbol == symbol):
         node.left_child.count += 1
@@ -44,7 +44,7 @@ def IncreaseOccurenceAndReturnCode(symbol, node, outputcode):
         return "0"
         
     else:
-        return outputcode + "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child, outputcode)
+        return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
 def Compress(input):
 
@@ -58,10 +58,10 @@ def Compress(input):
         new_symbol = not element in symbol_list        
         if (new_symbol):
             compressed_file.write(element)
-            compressed_file.write(ReturnCodeOfNewSymbol(tree.root, ""))
+            compressed_file.write(ReturnCodeOfNewSymbol(tree.root))
             AddNewSymbolToTree(element)
         else:
-            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root, ""))
+            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root))
 
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 numbers_to_compress = "0101111100001100100010010000011111001001001001110011111010"
