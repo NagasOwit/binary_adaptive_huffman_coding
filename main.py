@@ -84,19 +84,19 @@ def string2bits(s=''):
 def bits2string(b=None):
     return ''.join([chr(int(x, 2)) for x in b])
 
-s = 'Hello, World!'
-b = string2bits(s)
-s2 = bits2string(b)
+# s = 'Hello, World!'
+# b = string2bits(s)
+# s2 = bits2string(b)
 
-print ('String:')
-print (s)
+# print ('String:')
+# print (s)
 
-print ('\nList of Bits:')
-for x in b:
-    print (x)
+# print ('\nList of Bits:')
+# for x in b:
+#     print (x)
 
-print ('\nString:')
-print (s2)
+# print ('\nString:')
+# print (s2)
 
 def TestEncoding():
 
@@ -124,6 +124,8 @@ def TestEncoding():
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
             
+            print(an_integer)
+
             if (second_part):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
@@ -133,6 +135,9 @@ def TestEncoding():
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
+
+            print(an_integer)
+
             buffer.append(an_integer)
             j = 0
         i += 1
@@ -154,7 +159,7 @@ def TestDecoding():
             #...do something with b
 
 TestEncoding()
-#TestDecoding()
+TestDecoding()
 
 # compressed_file = open("compressed_file", "r").read()
 # Decompress(compressed_file)
