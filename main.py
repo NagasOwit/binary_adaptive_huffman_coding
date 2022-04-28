@@ -77,29 +77,14 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
-test_str = "Ge"
-  
-# printing original string 
-print("The original string is : " + str(test_str))
-  
-# using join() + ord() + format()
-# Converting String to binary
-res = ''.join(format(ord(i), '08b') for i in test_str)
-
-# printing result 
-print("The string after binary conversion : " + str(res))
-
-
 # initializing string 
-test_str = "t1o11m111 1101111a11111r101111011110110110"
-
 s = "t1o11m111 1101111a11111r101111011110110110"
 i = 0
 buffer = bytearray()
 while i < len(s):
     if (s[i].isnumeric()):
-        buffer.append(int(s[i:i+8], 2))
-        i += 8
+        buffer.append(int(s[i]))
+        i += 1
     else:
         buffer.append(ord(s[i]))
         i += 1
