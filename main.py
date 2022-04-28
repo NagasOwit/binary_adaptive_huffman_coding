@@ -158,8 +158,16 @@ def TestDecoding():
             print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
             #...do something with b
 
+def Test():
+
+    unicode_value = ord('t')
+
+    print("The Unicode value of the character", "t", "is", str(unicode_value))
+    print(bin(unicode_value))
+
 TestEncoding()
 TestDecoding()
+Test()
 
 # compressed_file = open("compressed_file", "r").read()
 # Decompress(compressed_file)
