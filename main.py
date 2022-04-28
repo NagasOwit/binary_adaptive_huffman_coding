@@ -1,4 +1,5 @@
 import bitarray
+import sys
 
 class Node:
 
@@ -77,55 +78,83 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
-# initializing string 
-s = "t1o11m111 1101111a11111r101111011110110110"
-i = 0
+def string2bits(s=''):
+    return [bin(ord(x))[2:].zfill(8) for x in s]
 
-while i < len(s):
-    if not (s[i].isnumeric()):
-        print(bin(ord(s[i]))[2:])
-    i += 1
+def bits2string(b=None):
+    return ''.join([chr(int(x, 2)) for x in b])
 
-buffer = bytearray()
-bit_array = [0] * 8
-j = 0
+s = 'Hello, World!'
+b = string2bits(s)
+s2 = bits2string(b)
 
-for i in range(len(s)):
-    
-    if (s[i].isnumeric()):
-        bit_array[j] = int(s[i])
+print ('String:')
+print (s)
 
-    else:
-        character_encoding = bin(ord(s[i]))[2:]
-        first_part = character_encoding[0:7-j]
-        second_part = character_encoding[7-j:7]
+print ('\nList of Bits:')
+for x in b:
+    print (x)
 
-        for k in range(len(first_part)):
-            bit_array[k+j] = int(first_part[k])
+print ('\nString:')
+print (s2)
 
+def TestEncoding():
 
-        strings = [str(integer) for integer in bit_array]
-        a_string = "".join(strings)
-        an_integer = int(a_string, 2)
-        buffer.append(an_integer)
+    s = "t1o11m111 1101111a11111r101111011110110110"
+    buffer = bytearray()
+    bit_array = [0] * 8
+    j = 0
+
+    for i in range(len(s)):
         
-        if (second_part):
-            for k in range(len(second_part)):
-                bit_array[k] = int(second_part[k])
+        if (s[i].isnumeric()):
+            bit_array[j] = int(s[i])
 
-    j += 1
-    if ((i + 1) % 8 == 0):
-        strings = [str(integer) for integer in bit_array]
-        a_string = "".join(strings)
-        an_integer = int(a_string, 2)
-        buffer.append(an_integer)
-        j = 0
-    i += 1
+        else:
+            character_encoding = bin(ord(s[i]))[2:]
+            first_part = character_encoding[0:7-j]
+            second_part = character_encoding[7-j:7]
 
-# now write your buffer to a file
-with open("uncompressed_file", 'bw') as f:
-    f.write(buffer)
+            for k in range(len(first_part)):
+                bit_array[k+j] = int(first_part[k])
 
+
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+            
+            if (second_part):
+                for k in range(len(second_part)):
+                    bit_array[k] = int(second_part[k])
+
+        j += 1
+        if ((i + 1) % 8 == 0):
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+            j = 0
+        i += 1
+
+    # now write your buffer to a file
+    with open("uncompressed_file", 'bw') as f:
+        f.write(buffer)
+
+def TestDecoding():
+
+    print("Decoding")
+
+    with open("uncompressed_file", "rb") as fh:
+        b = fh.read(1)
+        print(b)
+        while b:
+            b = fh.read(1)
+            print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
+            #...do something with b
+
+TestEncoding()
+#TestDecoding()
 
 # compressed_file = open("compressed_file", "r").read()
 # Decompress(compressed_file)
