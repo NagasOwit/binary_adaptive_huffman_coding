@@ -77,19 +77,6 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
-test_str = "Ge"
-  
-# printing original string 
-print("The original string is : " + str(test_str))
-  
-# using join() + ord() + format()
-# Converting String to binary
-res = ''.join(format(ord(i), '08b') for i in test_str)
-
-# printing result 
-print("The string after binary conversion : " + str(res))
-
-
 # initializing string 
 s = "t1o11m111 1101111a11111r101111011110110110"
 i = 0
@@ -114,17 +101,24 @@ for i in range(len(s)):
         second_part = character_encoding[7-j:7]
 
         for k in range(len(first_part)):
-            bit_array[k+j] = int(first_part(k))
-        buffer.append(bit_array)
+            bit_array[k+j] = int(first_part[k])
+
+
+        strings = [str(integer) for integer in bit_array]
+        a_string = "".join(strings)
+        an_integer = int(a_string, 2)
+        buffer.append(an_integer)
         
         if (second_part):
             for k in range(len(second_part)):
-                bit_array[k] = int(second_part(k))
+                bit_array[k] = int(second_part[k])
 
     j += 1
     if (i + 1 % 8 == 0):
-        buffer.append(bit_array)
-        bit_array = [0] * 8
+        strings = [str(integer) for integer in bit_array]
+        a_string = "".join(strings)
+        an_integer = int(a_string,2 )
+        buffer.append(an_integer)
         j = 0
     i += 1
 
