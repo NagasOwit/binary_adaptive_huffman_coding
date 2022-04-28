@@ -77,17 +77,45 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
+test_str = "Ge"
+  
+# printing original string 
+print("The original string is : " + str(test_str))
+  
+# using join() + ord() + format()
+# Converting String to binary
+res = ''.join(format(ord(i), '08b') for i in test_str)
+
+# printing result 
+print("The string after binary conversion : " + str(res))
+
+
 # initializing string 
 s = "t1o11m111 1101111a11111r101111011110110110"
 i = 0
-buffer = bytearray()
+
 while i < len(s):
+    if not (s[i].isnumeric()):
+        print(bin(ord(s[i]))[2:])
+    i += 1
+
+buffer = bytearray()
+bit_array = [0] * 8
+j = 0
+
+for i in range(len(s)):
+    
     if (s[i].isnumeric()):
-        buffer.append(int(s[i]))
-        i += 1
+        bit_array[j] = int(s[i])
     else:
         buffer.append(ord(s[i]))
-        i += 1
+
+    j += 1
+    if (i + 1 % 8 == 0):
+        buffer.append(bit_array)
+        bit_array = [0] * 8
+        j = 0
+    i += 1
 
 # now write your buffer to a file
 with open("uncompressed_file", 'bw') as f:
