@@ -107,8 +107,19 @@ for i in range(len(s)):
     
     if (s[i].isnumeric()):
         bit_array[j] = int(s[i])
+
     else:
-        buffer.append(ord(s[i]))
+        character_encoding = bin(ord(s[i]))[2:]
+        first_part = character_encoding[0:7-j]
+        second_part = character_encoding[7-j:7]
+
+        for k in range(len(first_part)):
+            bit_array[k+j] = int(first_part(k))
+        buffer.append(bit_array)
+        
+        if (second_part):
+            for k in range(len(second_part)):
+                bit_array[k] = int(second_part(k))
 
     j += 1
     if (i + 1 % 8 == 0):
