@@ -152,7 +152,7 @@ def TestDecoding():
 
     with open("uncompressed_file", "rb") as fh:
         b = fh.read(1)
-        print(b)
+        print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
         while b:
             b = fh.read(1)
             print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
@@ -165,8 +165,16 @@ def Test():
     print("The Unicode value of the character", "t", "is", str(unicode_value))
     print(bin(unicode_value))
 
-TestEncoding()
-TestDecoding()
+    file = open("book_of_genesis_to_compress.txt", "rb")
+    print(file)
+    byte = file.read(1)
+    while byte != "":
+        # Do stuff with byte.
+        byte = file.read(1)
+        print(byte)
+
+#TestEncoding()
+#TestDecoding()
 Test()
 
 # compressed_file = open("compressed_file", "r").read()
