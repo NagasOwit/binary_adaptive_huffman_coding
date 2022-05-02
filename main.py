@@ -78,26 +78,6 @@ text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
-def string2bits(s=''):
-    return [bin(ord(x))[2:].zfill(8) for x in s]
-
-def bits2string(b=None):
-    return ''.join([chr(int(x, 2)) for x in b])
-
-# s = 'Hello, World!'
-# b = string2bits(s)
-# s2 = bits2string(b)
-
-# print ('String:')
-# print (s)
-
-# print ('\nList of Bits:')
-# for x in b:
-#     print (x)
-
-# print ('\nString:')
-# print (s2)
-
 def TestEncoding():
 
     s = "t1o11m111 1101111a11111r101111011110110110"
@@ -112,6 +92,12 @@ def TestEncoding():
 
         else:
             character_encoding = bin(ord(s[i]))[2:]
+
+            if (len(character_encoding) < 8):
+                character_encoding = character_encoding.zfill(8)
+
+            print("Code of: " + s[i] + " is: " + character_encoding)
+
             first_part = character_encoding[0:7-j]
             second_part = character_encoding[7-j:7]
 
@@ -165,7 +151,7 @@ def Test():
     print("The Unicode value of the character", "t", "is", str(unicode_value))
     print(bin(unicode_value))
 
-    file = open("book_of_genesis_to_compress.txt", "rb")
+    file = open("Androna.h5m", "rb")
     print(file)
     byte = file.read(1)
     while byte != "":
@@ -173,9 +159,9 @@ def Test():
         byte = file.read(1)
         print(byte)
 
-#TestEncoding()
-#TestDecoding()
-Test()
+TestEncoding()
+TestDecoding()
+#Test()
 
 # compressed_file = open("compressed_file", "r").read()
 # Decompress(compressed_file)
