@@ -128,21 +128,21 @@ def TestEncoding():
             j = 0
         i += 1
 
-    # now write your buffer to a file
-    with open("uncompressed_file", 'bw') as f:
+    with open("compressed_file_test", 'bw') as f:
         f.write(buffer)
 
 def TestDecoding():
 
     print("Decoding")
 
-    with open("uncompressed_file", "rb") as fh:
+    with open("compressed_file_test", "rb") as fh:
+
+        epsilon_symbol_length = 1
         b = fh.read(1)
         print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
         while b:
             b = fh.read(1)
             print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
-            #...do something with b
 
 def Test():
 
