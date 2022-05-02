@@ -123,7 +123,7 @@ def TestEncoding():
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
             j = 0
-            
+
         i += 1
 
     with open("compressed_file_test", 'bw') as f:
@@ -134,9 +134,11 @@ def TestDecoding():
     print("Decoding")
 
     with open("compressed_file_test", "rb") as fh:
-
-        epsilon_symbol_length = 1
+        
         b = fh.read(1)
+        print(b.decode("utf-8"))
+        epsilon_symbol_length = 1
+
         print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
         while b:
             b = fh.read(1)
