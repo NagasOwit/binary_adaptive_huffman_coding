@@ -97,7 +97,7 @@ def TestEncoding():
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + s[i] + " is: " + character_encoding)
+                print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:7-j]
             second_part = character_encoding[7-j:7]
@@ -105,15 +105,20 @@ def TestEncoding():
             for k in range(len(first_part)):
                 bit_array[k+j] = int(first_part[k])
 
-
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
 
+            print(a_string)
+            
+            original_j = j
+            j = -1
+
             if (second_part):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
+                    j = original_j
 
         j += 1
 
@@ -131,18 +136,25 @@ def TestEncoding():
 
 def TestDecoding():
 
+    symbol_list = [] #list of symbols
+    tree = HuffmanTree() #Epsilon, starts as root
     print("Decoding")
 
     with open("compressed_file_test", "rb") as fh:
         
         b = fh.read(1)
-        print(b.decode("utf-8"))
+        decoded_string = b.decode("utf-8")
+        AddNewSymbolToTree(b.decode("utf-8"))
         epsilon_symbol_length = 1
 
-        print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
         while b:
+
             b = fh.read(1)
-            print(bin(int.from_bytes(b, byteorder=sys.byteorder))[2:])
+            new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
+            print(new_byte)
+            epsilon_counter = 0
+            new_symbol = False
+
 
 def Test():
 
