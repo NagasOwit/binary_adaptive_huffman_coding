@@ -99,8 +99,8 @@ def TestEncoding():
                 character_encoding = character_encoding.zfill(8)
                 print("Code of: " + s[i] + " is: " + character_encoding)
 
-            first_part = character_encoding[0:7-j]
-            second_part = character_encoding[7-j:7]
+            first_part = character_encoding[0:8-j]
+            second_part = character_encoding[8-j:8]
 
             for k in range(len(first_part)):
                 bit_array[k+j] = int(first_part[k])
@@ -118,7 +118,7 @@ def TestEncoding():
             if (second_part):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
-                    j = original_j
+                    j = original_j - 1
 
         j += 1
 
