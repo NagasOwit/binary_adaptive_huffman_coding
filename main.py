@@ -80,6 +80,8 @@ Compress(text_to_compress)
 
 def TestEncoding():
 
+    print("Encoding")
+
     s = "t1o11m111 1101111a11111r101111011110110110"
     buffer = bytearray()
     bit_array = [0] * 8
@@ -95,8 +97,7 @@ def TestEncoding():
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-
-            print("Code of: " + s[i] + " is: " + character_encoding)
+                #print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:7-j]
             second_part = character_encoding[7-j:7]
@@ -109,8 +110,6 @@ def TestEncoding():
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
-            
-            print(an_integer)
 
             if (second_part):
                 for k in range(len(second_part)):
@@ -121,8 +120,6 @@ def TestEncoding():
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
-
-            print(an_integer)
 
             buffer.append(an_integer)
             j = 0
