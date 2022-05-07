@@ -145,14 +145,13 @@ def TestDecoding():
         b = fh.read(1)
         decoded_string = b.decode("utf-8")
         AddNewSymbolToTree(b.decode("utf-8"))
-        epsilon_symbol_length = 1
+        epsilon_symbol = "1"
 
         while b:
 
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             print(new_byte)
-            epsilon_counter = 0
             new_symbol = False
 
 
@@ -170,6 +169,7 @@ def Test():
         # Do stuff with byte.
         byte = file.read(1)
         print(byte)
+
 
 TestEncoding()
 TestDecoding()
