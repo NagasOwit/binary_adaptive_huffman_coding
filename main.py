@@ -135,7 +135,7 @@ def Encoding(input):
     epsilon_code = epsilon_code[8-j:]
 
     for i in range(len(epsilon_code)):
-        if (i+1 % 8 == 0 and i != 0):
+        if (i + 1 % 8 == 0 and i != 0):
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
@@ -163,29 +163,30 @@ def Decoding():
             new_byte = new_byte.zfill(8)
             print("Byte, se kterým se pracuje: " + new_byte)
 
-            for i in range(len(new_byte)):
+            if (new_byte != "00000000"):
+                for i in range(len(new_byte)):
 
-                working_byte += new_byte[i]
-                if (working_byte == epsilon_symbol):
+                    working_byte += new_byte[i]
+                    if (working_byte == epsilon_symbol):
 
-                    if (i == 7):
-                        new_symbol = fh.read(1)
-                    else:
-                        new_symbol = new_byte[i+1:]
-                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
-                        string_byte_to_fill = string_byte_to_fill.zfill(8)
-                        new_symbol += string_byte_to_fill[:i+1]
-                        new_byte = string_byte_to_fill
+                        if (i == 7):
+                            new_symbol = fh.read(1)
+                        else:
+                            new_symbol = new_byte[i+1:]
+                            string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                            string_byte_to_fill = string_byte_to_fill.zfill(8)
+                            new_symbol += string_byte_to_fill[:i+1]
+                            new_byte = string_byte_to_fill
 
-                    new_symbol = chr(int(new_symbol, 2))
-                    decoded_string += new_symbol
-                    AddNewSymbolToTree(new_symbol)
-                    epsilon_symbol += "1"
-                    working_byte = ""
+                        new_symbol = chr(int(new_symbol, 2))
+                        decoded_string += new_symbol
+                        AddNewSymbolToTree(new_symbol)
+                        epsilon_symbol += "1"
+                        working_byte = ""
 
-                elif (new_byte[i] == "0"):
-                    decoded_string += FindSymbolInTree(working_byte, tree.root)
-                    working_byte = ""
+                    elif (new_byte[i] == "0"):
+                        decoded_string += FindSymbolInTree(working_byte, tree.root)
+                        working_byte = ""
 
         print(decoded_string)
 
