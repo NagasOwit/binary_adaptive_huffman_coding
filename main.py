@@ -137,12 +137,12 @@ def TestEncoding():
     with open("compressed_file_test", 'bw') as f:
         f.write(buffer)
 
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, starts as root
+
 def TestDecoding():
 
-    symbol_list = [] #list of symbols
-    tree = HuffmanTree() #Epsilon, starts as root
     print("Decoding")
-
     with open("compressed_file_test", "rb") as fh:
         
         b = fh.read(1)
@@ -161,16 +161,14 @@ def TestDecoding():
                 working_byte += bit
                 if (working_byte == epsilon_symbol):
                     new_symbol = fh.read(1)
-                    AddNewSymbolToTree(new_symbol.decode("utf-8"))
+                    #decoded_string += b.decode("utf-8")
+                    #AddNewSymbolToTree(new_symbol.decode("utf-8"))
                     epsilon_symbol += "1"
                     working_byte = ""
-                elif (bit == 0):
+                elif (bit == "0"):
                     FindSymbolInTree(working_byte)
 
-
-
-            print(new_byte)
-            new_byte = ""
+        print(decoded_string)
 
 
 def Test():
