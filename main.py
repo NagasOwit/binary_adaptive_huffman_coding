@@ -15,6 +15,9 @@ class HuffmanTree:
     escape_symbol = Node("", None, None, None, 0, 0)
     root = escape_symbol
 
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, starts as root
+
 def RecalculateTree(node, node_added):
 
     if (node.parent is None):
@@ -118,16 +121,13 @@ def Encoding(input):
             j = 0
         i += 1
 
-    with open("compressed_file_test", 'bw') as f:
+    with open("compressed_file", 'bw') as f:
         f.write(buffer)
-
-symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
 
 def Decoding():
 
     print("Decoding")
-    with open("compressed_file_test", "rb") as fh:
+    with open("compressed_file", "rb") as fh:
         
         b = fh.read(1)
         decoded_string = b.decode("utf-8")
@@ -184,14 +184,19 @@ def Compress(input):
     print(string_to_encode)
     Encoding(string_to_encode)
 
-#Testing part of the application
+def Decompress():
+    Decoding()
 
-symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
+
+#Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
 text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
-Decoding()
+
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, starts as root
+
+Decompress()
