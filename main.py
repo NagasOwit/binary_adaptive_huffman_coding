@@ -64,35 +64,12 @@ def FindSymbolInTree(input, node):
     else:
         return "" + FindSymbolInTree(input[1:], node.right_child)
 
-def Compress(input):
 
-    compressed_file = open("compressed_file", "wb")
-
-    for element in input:        
-        new_symbol = not element in symbol_list        
-        if (new_symbol):
-            compressed_file.write(ReturnCodeOfNewSymbol(tree.root).encode())
-            compressed_file.write(element.encode())
-            AddNewSymbolToTree(element)
-        else:
-            compressed_file.write(IncreaseOccurenceAndReturnCode(element, tree.root).encode())
-
-#Testing part of the application
-
-symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
-
-#text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-text_to_compress = "tom marta at"
-
-Compress(text_to_compress)
-
-def TestEncoding():
+def Encoding(input):
 
     print("Encoding")
 
-    s = "t1o11m111 1101111a11111r101111011110110110"
+    s = input
     buffer = bytearray()
     bit_array = [0] * 8
     j = 0
@@ -147,7 +124,7 @@ def TestEncoding():
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 
-def TestDecoding():
+def Decoding():
 
     print("Decoding")
     with open("compressed_file_test", "rb") as fh:
@@ -191,5 +168,30 @@ def TestDecoding():
 
         print(decoded_string)
 
-TestEncoding()
-TestDecoding()
+def Compress(input):
+
+    string_to_encode = ""
+
+    for element in input:        
+        new_symbol = not element in symbol_list        
+        if (new_symbol):
+            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
+            string_to_encode += element
+            AddNewSymbolToTree(element)
+        else:
+            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
+    
+    print(string_to_encode)
+    Encoding(string_to_encode)
+
+#Testing part of the application
+
+symbol_list = [] #list of symbols
+tree = HuffmanTree() #Epsilon, starts as root
+
+#text_to_compress = open("fullBible.txt", "r").read()
+#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+text_to_compress = "tom marta at"
+
+Compress(text_to_compress)
+Decoding()
