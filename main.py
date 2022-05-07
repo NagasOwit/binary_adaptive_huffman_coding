@@ -79,7 +79,7 @@ def Encoding(input):
 
     for i in range(len(s)):
         
-        if (s[i].isnumeric()):
+        if (s[i] == "0" or s[i] == "1"):
             bit_array[j] = int(s[i])
 
         else:
@@ -87,7 +87,7 @@ def Encoding(input):
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                print("Code of: " + s[i] + " is: " + character_encoding)
+                #print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -100,7 +100,7 @@ def Encoding(input):
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
 
-            print(a_string)
+            #print(a_string)
             
             original_j = j
             j = -1
@@ -117,7 +117,7 @@ def Encoding(input):
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
-            print(a_string)
+            #print(a_string)
             j = 0
         i += 1
     
@@ -129,7 +129,7 @@ def Encoding(input):
     a_string = "".join(strings)
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
-    print(a_string)
+    #print(a_string)
 
     epsilon_code = ReturnCodeOfNewSymbol(tree.root)
     epsilon_code = epsilon_code[8-j:]
@@ -140,7 +140,7 @@ def Encoding(input):
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
-            print(a_string)
+            #print(a_string)
 
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
@@ -161,7 +161,7 @@ def Decoding():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            print("Byte, se kterým se pracuje: " + new_byte)
+            #print("Byte, se kterým se pracuje: " + new_byte)
 
             if (new_byte != "00000000"):
                 for i in range(len(new_byte)):
@@ -170,7 +170,7 @@ def Decoding():
                     if (working_byte == epsilon_symbol):
 
                         if (i == 7):
-                            new_symbol = fh.read(1)
+                            new_symbol = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
                         else:
                             new_symbol = new_byte[i+1:]
                             string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
@@ -212,7 +212,7 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
