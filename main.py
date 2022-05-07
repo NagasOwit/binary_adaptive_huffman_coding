@@ -54,6 +54,9 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
     else:
         return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
+def FindSymbolInTree(input):
+    pass
+
 def Compress(input):
 
     compressed_file = open("compressed_file", "wb")
@@ -146,13 +149,28 @@ def TestDecoding():
         decoded_string = b.decode("utf-8")
         AddNewSymbolToTree(b.decode("utf-8"))
         epsilon_symbol = "1"
+        working_byte = ""
 
         while b:
 
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
+
+            for bit in new_byte:
+
+                working_byte += bit
+                if (working_byte == epsilon_symbol):
+                    new_symbol = fh.read(1)
+                    AddNewSymbolToTree(new_symbol.decode("utf-8"))
+                    epsilon_symbol += "1"
+                    working_byte = ""
+                elif (bit == 0):
+                    FindSymbolInTree(working_byte)
+
+
+
             print(new_byte)
-            new_symbol = False
+            new_byte = ""
 
 
 def Test():
