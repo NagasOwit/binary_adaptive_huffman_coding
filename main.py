@@ -165,15 +165,16 @@ def TestDecoding():
                         new_symbol = fh.read(1)
                     else:
                         new_symbol = new_byte[i+1:]
-                        byte_to_fill_symbol = fh.read(1)
-                        string_byte_to_fill = bin(int.from_bytes(byte_to_fill_symbol, byteorder=sys.byteorder))[2:]
-                        new_symbol += byte_to_fill_symbol[:i+1]
-                        new_byte = byte_to_fill_symbol
+                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        new_symbol += string_byte_to_fill[:i+1]
+                        new_byte = string_byte_to_fill
 
-                    decoded_string += new_symbol.decode("utf-8")
-                    AddNewSymbolToTree(new_symbol.decode("utf-8"))
+                    new_symbol = chr(int(new_symbol, 2))
+                    decoded_string += new_symbol
+                    AddNewSymbolToTree(new_symbol)
                     epsilon_symbol += "1"
                     working_byte = ""
+
                 elif (new_byte[i] == "0"):
                     FindSymbolInTree(working_byte)
 
