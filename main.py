@@ -202,8 +202,7 @@ def Compress(input):
             AddNewSymbolToTree(element)
         else:
             string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
-    
-    print(string_to_encode)
+
     Encoding(string_to_encode)
 
 def Decompress():
@@ -213,8 +212,8 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
-text_to_compress = "tom marta at"
+text_to_compress = open("book_of_genesis_to_compress.txt", "r").read()
+#text_to_compress = "tom marta at"
 
 Compress(text_to_compress)
 
