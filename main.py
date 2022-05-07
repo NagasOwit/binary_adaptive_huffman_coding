@@ -131,7 +131,7 @@ def TestEncoding():
 
         j += 1
 
-        if (j % 8 == 0):
+        if (j % 8 == 0 and j != 0):
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
