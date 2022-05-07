@@ -131,13 +131,13 @@ def TestEncoding():
 
         j += 1
 
-        if ((i + 1) % 8 == 0):
+        if (j % 8 == 0):
             strings = [str(integer) for integer in bit_array]
             a_string = "".join(strings)
             an_integer = int(a_string, 2)
             buffer.append(an_integer)
+            print(a_string)
             j = 0
-
         i += 1
 
     with open("compressed_file_test", 'bw') as f:
