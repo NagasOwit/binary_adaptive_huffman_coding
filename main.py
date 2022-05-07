@@ -106,7 +106,7 @@ def TestEncoding():
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                print("Code of: " + s[i] + " is: " + character_encoding)
+                #print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -161,6 +161,8 @@ def TestDecoding():
 
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
+            new_byte = new_byte.zfill(8)
+            print("Byte, se kterým se pracuje: " + new_byte)
 
             for i in range(len(new_byte)):
 
@@ -179,6 +181,7 @@ def TestDecoding():
                     decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
                     epsilon_symbol += "1"
+                    print("Byte, nového znaku: " + working_byte)
                     working_byte = ""
 
                 elif (new_byte[i] == "0"):
