@@ -191,26 +191,5 @@ def TestDecoding():
 
         print(decoded_string)
 
-
-def Test():
-
-    unicode_value = ord('t')
-
-    print("The Unicode value of the character", "t", "is", str(unicode_value))
-    print(bin(unicode_value))
-
-    file = open("Androna.h5m", "rb")
-    print(file)
-    byte = file.read(1)
-    while byte != "":
-        # Do stuff with byte.
-        byte = file.read(1)
-        print(byte)
-
-
 TestEncoding()
 TestDecoding()
-#Test()
-
-# compressed_file = open("compressed_file", "r").read()
-# Decompress(compressed_file)
