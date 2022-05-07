@@ -57,8 +57,9 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
 def FindSymbolInTree(input, node):
     if (input[0] == "0"):
         node.left_child.count += 1 #increase occurence
+        symbol_to_return = node.left_child.symbol
         RecalculateTree(node, node.left_child)
-        return node.left_child.symbol
+        return symbol_to_return
         
     else:
         return "" + FindSymbolInTree(input[1:], node.right_child)
@@ -106,7 +107,7 @@ def TestEncoding():
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + s[i] + " is: " + character_encoding)
+                print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -174,6 +175,7 @@ def TestDecoding():
                     else:
                         new_symbol = new_byte[i+1:]
                         string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        string_byte_to_fill = string_byte_to_fill.zfill(8)
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
 
@@ -181,11 +183,11 @@ def TestDecoding():
                     decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
                     epsilon_symbol += "1"
-                    print("Byte, nového znaku: " + working_byte)
                     working_byte = ""
 
                 elif (new_byte[i] == "0"):
                     decoded_string += FindSymbolInTree(working_byte, tree.root)
+                    working_byte = ""
 
         print(decoded_string)
 
