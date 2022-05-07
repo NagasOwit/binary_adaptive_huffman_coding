@@ -54,8 +54,14 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
     else:
         return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
-def FindSymbolInTree(input):
-    pass
+def FindSymbolInTree(input, node):
+    if (input[0] == "0"):
+        node.left_child.count += 1 #increase occurence
+        RecalculateTree(node, node.left_child)
+        return node.left_child.symbol
+        
+    else:
+        return "" + FindSymbolInTree(input[1:], node.right_child)
 
 def Compress(input):
 
@@ -176,7 +182,7 @@ def TestDecoding():
                     working_byte = ""
 
                 elif (new_byte[i] == "0"):
-                    FindSymbolInTree(working_byte)
+                    decoded_string += FindSymbolInTree(working_byte, tree.root)
 
         print(decoded_string)
 
