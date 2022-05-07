@@ -120,6 +120,27 @@ def Encoding(input):
             print(a_string)
             j = 0
         i += 1
+    
+    # Musím na konec ještě přidat zakódování epsilon symbolu
+    for i in range(8-j):
+        bit_array[i+j] = "1"
+
+    strings = [str(integer) for integer in bit_array]
+    a_string = "".join(strings)
+    an_integer = int(a_string, 2)
+    buffer.append(an_integer)
+    print(a_string)
+
+    epsilon_code = ReturnCodeOfNewSymbol(tree.root)
+    epsilon_code = epsilon_code[8-j:]
+
+    for i in range(len(epsilon_code)):
+        if (i+1 % 8 == 0 and i != 0):
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+            print(a_string)
 
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
