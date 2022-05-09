@@ -32,13 +32,29 @@ def RecalculateTree(node, node_added):
     else:
         return
 
-def ReturnCodeOfNewSymbol(node):
+# def ReturnCodeOfNewSymbol(node):
 
-    if (node.right_child is None):
-       return ""
+#     if (node.right_child is None):
+#        return ""
+
+#     else:
+#         return "1" + ReturnCodeOfNewSymbol(node.right_child)
+
+def ReturnCodeOfNewSymbol(node, previous_node):
+
+    returning_symbol = "" 
+    if (node is None):
+       return returning_symbol
 
     else:
-        return "1" + ReturnCodeOfNewSymbol(node.right_child)
+       
+        if (node.left_child == previous_node):
+            returning_symbol = "0"
+        
+        if (node.right_child == previous_node):
+            returning_symbol = "1"
+
+        return returning_symbol + ReturnCodeOfNewSymbol(node.parent, node)
 
 def AddNewSymbolToTree(symbol):
 
@@ -104,7 +120,7 @@ def Compress(input):
         new_symbol = not element in symbol_list        
         if (new_symbol):
 
-            string_to_encode = ReturnCodeOfNewSymbol(tree.root)
+            string_to_encode = ReturnCodeOfNewSymbol(tree.escape_symbol.parent, tree.escape_symbol)[::-1]
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
             character_encoding = bin(ord(element))[2:]
@@ -147,7 +163,7 @@ def Compress(input):
 
     WriteToBuffer(bit_array, buffer)
 
-    epsilon_code = ReturnCodeOfNewSymbol(tree.root)
+    epsilon_code = ReturnCodeOfNewSymbol(tree.escape_symbol.parent, tree.escape_symbol)[::-1]
     epsilon_code = epsilon_code[8-j:]
 
     for i in range(len(epsilon_code)):
