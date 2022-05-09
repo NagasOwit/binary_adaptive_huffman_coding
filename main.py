@@ -150,7 +150,7 @@ def NewCompress(input):
         new_symbol = not element in symbol_list        
         if (new_symbol):
 
-            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
+            string_to_encode = ReturnCodeOfNewSymbol(tree.root)
 
             debug_string += string_to_encode
 
