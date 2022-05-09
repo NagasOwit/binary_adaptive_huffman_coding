@@ -145,8 +145,23 @@ def Encoding(input):
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
 
-def Decoding():
+def Compress(input):
 
+    string_to_encode = ""
+
+    for element in input:        
+        new_symbol = not element in symbol_list        
+        if (new_symbol):
+            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
+            string_to_encode += element
+            AddNewSymbolToTree(element)
+        else:
+            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
+
+    Encoding(string_to_encode)
+
+def Decompress():
+    
     print("Decoding")
     with open("compressed_file", "rb") as fh:
         
@@ -189,24 +204,6 @@ def Decoding():
                         working_byte = ""
 
         print(decoded_string)
-
-def Compress(input):
-
-    string_to_encode = ""
-
-    for element in input:        
-        new_symbol = not element in symbol_list        
-        if (new_symbol):
-            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
-            string_to_encode += element
-            AddNewSymbolToTree(element)
-        else:
-            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
-
-    Encoding(string_to_encode)
-
-def Decompress():
-    Decoding()
 
 
 #Testing part of the application
