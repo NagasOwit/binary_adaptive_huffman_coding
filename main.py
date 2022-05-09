@@ -111,7 +111,7 @@ def Encoding(input):
             if (second_part):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
-                    j = original_j - 1
+                j = original_j - 1
 
         j += 1
 
@@ -179,7 +179,7 @@ def NewCompress(input):
             if (second_part):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
-                    j = original_j - 1
+                j = original_j - 1
             
             AddNewSymbolToTree(element)
 
