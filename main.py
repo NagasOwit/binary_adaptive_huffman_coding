@@ -67,6 +67,14 @@ def FindSymbolInTree(input, node):
     else:
         return "" + FindSymbolInTree(input[1:], node.right_child)
 
+def WriteToBuffer(bit_array, buffer):
+
+    strings = [str(integer) for integer in bit_array]
+    a_string = "".join(strings)
+    an_integer = int(a_string, 2)
+    buffer.append(an_integer)
+
+    #print(a_string)
 
 def Encoding(input):
 
@@ -128,16 +136,6 @@ def Encoding(input):
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
 
-def WriteToBuffer(bit_array, buffer):
-
-    strings = [str(integer) for integer in bit_array]
-    a_string = "".join(strings)
-    an_integer = int(a_string, 2)
-    buffer.append(an_integer)
-
-    #print(a_string)
-
-
 def NewCompress(input):
 
     string_to_encode = ""
@@ -153,7 +151,13 @@ def NewCompress(input):
         if (new_symbol):
 
             string_to_encode += ReturnCodeOfNewSymbol(tree.root)
-            string_to_encode += element
+            for i in range(len(string_to_encode)):                
+                bit_array[j] = int(string_to_encode[i])
+                j += 1
+                if (j % 8 == 0 and j != 0):
+                    WriteToBuffer(bit_array, buffer)
+                    j = 0
+
 
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
@@ -179,9 +183,15 @@ def NewCompress(input):
                     j = original_j - 1
             
             AddNewSymbolToTree(element)
+            
         else:
             string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
-            bit_array[j] = int(s[i])
+            for i in range(len(string_to_encode)):                
+                bit_array[j] = int(string_to_encode[i])
+                j += 1
+                if (j % 8 == 0 and j != 0):
+                    WriteToBuffer(bit_array, buffer)
+                    j = 0
 
         j += 1
 
