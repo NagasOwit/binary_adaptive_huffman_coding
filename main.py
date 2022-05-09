@@ -17,6 +17,7 @@ class HuffmanTree:
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
+buffer = bytearray() #Starting buffer
 
 def RecalculateTree(node, node_added):
 
@@ -76,28 +77,30 @@ def WriteToBuffer(bit_array, buffer):
 
     #print(a_string)
 
+def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
+    for i in range(len(string_to_encode)):                
+                bit_array[j] = int(string_to_encode[i])
+                j += 1
+                if (j % 8 == 0 and j != 0):
+                    WriteToBuffer(bit_array, buffer)
+                    j = 0
+    return j
+
+
 def Compress(input):
 
     string_to_encode = ""
-    buffer = bytearray()
     bit_array = [0] * 8
     j = 0
 
-    print("Encoding")
+    print("Compressing...")
 
     for element in input:        
         new_symbol = not element in symbol_list        
         if (new_symbol):
 
             string_to_encode = ReturnCodeOfNewSymbol(tree.root)
-
-            for i in range(len(string_to_encode)):                
-                bit_array[j] = int(string_to_encode[i])
-                j += 1
-                if (j % 8 == 0 and j != 0):
-                    WriteToBuffer(bit_array, buffer)
-                    j = 0
-
+            j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
@@ -126,12 +129,7 @@ def Compress(input):
 
         else:
             string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root)
-            for i in range(len(string_to_encode)):                
-                bit_array[j] = int(string_to_encode[i])
-                j += 1
-                if (j % 8 == 0 and j != 0):
-                    WriteToBuffer(bit_array, buffer)
-                    j = 0
+            j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
         if (j % 8 == 0 and j != 0):
             WriteToBuffer(bit_array, buffer)
@@ -156,7 +154,7 @@ def Compress(input):
 
 def Decompress():
     
-    print("Decoding")
+    print("Decompressing...")
     with open("compressed_file", "rb") as fh:
         
         b = fh.read(1)
