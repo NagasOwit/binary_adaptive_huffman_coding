@@ -52,7 +52,8 @@ def AddNewSymbolToTree(symbol):
 
     symbol_list.append(symbol)    
     new_node = tree.escape_symbol
-    new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
+    new_node.count = 1
+    new_node.left_child =  Node(symbol, new_node, None, None, 1, new_node.index + 1)
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
 
