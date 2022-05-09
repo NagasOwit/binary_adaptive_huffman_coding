@@ -95,7 +95,7 @@ def Encoding(input):
 
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)                
-                print("Code of: " + s[i] + " is: " + character_encoding)
+                #print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -167,7 +167,7 @@ def NewCompress(input):
                 character_encoding = character_encoding.zfill(8)
 
                 debug_string += character_encoding
-                print("Code of: " + element + " is: " + character_encoding)
+                #print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -184,19 +184,20 @@ def NewCompress(input):
                 for k in range(len(second_part)):
                     bit_array[k] = int(second_part[k])
                 j = original_j - 1
+
+            j += 1
             
             AddNewSymbolToTree(element)
 
         else:
             string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root)
+            debug_string += string_to_encode
             for i in range(len(string_to_encode)):                
                 bit_array[j] = int(string_to_encode[i])
                 j += 1
                 if (j % 8 == 0 and j != 0):
                     WriteToBuffer(bit_array, buffer)
                     j = 0
-
-        j += 1
 
         if (j % 8 == 0 and j != 0):
             WriteToBuffer(bit_array, buffer)
@@ -219,8 +220,8 @@ def NewCompress(input):
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
     
-    for i in range(0, len(debug_string), 8):
-        print(debug_string[i:i+8])
+    #for i in range(0, len(debug_string), 8):
+        #print(debug_string[i:i+8])
 
 def Compress(input):
 
@@ -286,8 +287,10 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
+text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "taat"
+#text_to_compress = "tom marta at"
+#text_to_compress = "taat"
 
 NewCompress(text_to_compress)
 
