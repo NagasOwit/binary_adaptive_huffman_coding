@@ -139,7 +139,6 @@ def Encoding(input):
 def NewCompress(input):
 
     string_to_encode = ""
-    s = input
     buffer = bytearray()
     bit_array = [0] * 8
     j = 0
@@ -183,7 +182,7 @@ def NewCompress(input):
                     j = original_j - 1
             
             AddNewSymbolToTree(element)
-            
+
         else:
             string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
             for i in range(len(string_to_encode)):                
@@ -280,10 +279,10 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "tom marta at"
+#text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
+text_to_compress = "tom marta at"
 
-Compress(text_to_compress)
+NewCompress(text_to_compress)
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
