@@ -94,8 +94,8 @@ def Encoding(input):
             character_encoding = bin(ord(s[i]))[2:]
 
             if (len(character_encoding) < 8):
-                character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + s[i] + " is: " + character_encoding)
+                character_encoding = character_encoding.zfill(8)                
+                print("Code of: " + s[i] + " is: " + character_encoding)
 
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -176,8 +176,6 @@ def NewCompress(input):
                 bit_array[k+j] = int(first_part[k])
 
             WriteToBuffer(bit_array, buffer)
-
-            #print(a_string)
     
             original_j = j
             j = -1
@@ -190,7 +188,7 @@ def NewCompress(input):
             AddNewSymbolToTree(element)
 
         else:
-            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
+            string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root)
             for i in range(len(string_to_encode)):                
                 bit_array[j] = int(string_to_encode[i])
                 j += 1
