@@ -45,8 +45,7 @@ def RecalculateTree(node, node_added):
             node_added.parent = node.parent
 
         node_added.count += 1
-        node_added = node_added.parent
-        node = node_added.parent
+        node = node.parent
 
     node_added.count += 1
 
@@ -240,8 +239,8 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "tom marta at"
-text_to_compress = "taat"
+text_to_compress = "tom marta at tom marta at tom marta at tom marta at tom marta at tom marta at"
+#text_to_compress = "taat"
 
 Compress(text_to_compress)
 
