@@ -19,18 +19,38 @@ symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 buffer = bytearray() #Starting buffer
 
+# def RecalculateTree(node, node_added):
+
+#     if (node.parent is None):
+#         return
+
+#     elif (node_added.count == node.parent.left_child.count):
+#         node.left_child = node.parent.left_child
+#         node.left_child.parent = node
+#         node.parent.left_child = node_added
+#         node_added.parent = node.parent
+#         RecalculateTree(node.parent, node_added)
+#     else:
+#         return
+
 def RecalculateTree(node, node_added):
 
-    if (node.parent is None):
-        return
-    elif (node_added.count > node.parent.left_child.count):
-        node.left_child = node.parent.left_child
-        node.left_child.parent = node
-        node.parent.left_child = node_added
-        node_added.parent = node.parent
-        RecalculateTree(node.parent, node_added)
-    else:
-        return
+    while (node.parent is not None):
+
+        if (node_added.count == node.parent.left_child.count): 
+
+            node.left_child = node.parent.left_child
+            node.left_child.parent = node
+            node.parent.left_child = node_added
+            node_added.parent = node.parent
+
+        node_added.count += 1
+        node_added = node_added.parent
+        node = node_added.parent
+
+    node_added.count += 1
+
+
 
 def ReturnCodeOfNewSymbol(node, previous_node):
 
@@ -63,7 +83,6 @@ def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
 
     if (node is not None):
         if (node.symbol == symbol):
-            node.count += 1
             RecalculateTree(node.parent, node)
             return returning_code
         
@@ -82,7 +101,6 @@ def FindSymbolInTree(input, node):
             return "" + FindSymbolInTree(input[1:], node.right_child)
 
     else:
-        node.count += 1 #increase occurence
         symbol_to_return = node.symbol
         RecalculateTree(node.parent, node)
         return symbol_to_return
@@ -220,10 +238,10 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis.txt", "r").read()
+#text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "tom marta at"
-#text_to_compress = "taat"
+text_to_compress = "taat"
 
 Compress(text_to_compress)
 
