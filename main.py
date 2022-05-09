@@ -153,55 +153,57 @@ def NewCompress(input):
     bit_array = [0] * 8
     j = 0
 
+    print("Encoding")
+
     for element in input:        
         new_symbol = not element in symbol_list        
         if (new_symbol):
+
             string_to_encode += ReturnCodeOfNewSymbol(tree.root)
             string_to_encode += element
+
+            character_encoding = bin(ord(element))[2:]
+            if (len(character_encoding) < 8):
+                character_encoding = character_encoding.zfill(8)
+                #print("Code of: " + s[i] + " is: " + character_encoding)
+            
+            first_part = character_encoding[0:8-j]
+            second_part = character_encoding[8-j:8]
+
+            for k in range(len(first_part)):
+                bit_array[k+j] = int(first_part[k])
+
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+
+            #print(a_string)
+    
+            original_j = j
+            j = -1
+
+            if (second_part):
+                for k in range(len(second_part)):
+                    bit_array[k] = int(second_part[k])
+                    j = original_j - 1
+            
             AddNewSymbolToTree(element)
         else:
             string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
+            bit_array[j] = int(s[i])
 
-    print("Encoding")
+        j += 1
+
+        if (j % 8 == 0 and j != 0):
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+            #print(a_string)
+            j = 0
     
-    character_encoding = bin(ord(s[i]))[2:]
-
-    if (len(character_encoding) < 8):
-        character_encoding = character_encoding.zfill(8)
-        #print("Code of: " + s[i] + " is: " + character_encoding)
-
-    first_part = character_encoding[0:8-j]
-    second_part = character_encoding[8-j:8]
-
-    for k in range(len(first_part)):
-        bit_array[k+j] = int(first_part[k])
-
-    strings = [str(integer) for integer in bit_array]
-    a_string = "".join(strings)
-    an_integer = int(a_string, 2)
-    buffer.append(an_integer)
-
-    #print(a_string)
-    
-    original_j = j
-    j = -1
-
-    if (second_part):
-        for k in range(len(second_part)):
-            bit_array[k] = int(second_part[k])
-            j = original_j - 1
-
-    j += 1
-
-    if (j % 8 == 0 and j != 0):
-        strings = [str(integer) for integer in bit_array]
-        a_string = "".join(strings)
-        an_integer = int(a_string, 2)
-        buffer.append(an_integer)
-        #print(a_string)
-        j = 0
-    
-    # Musím na konec ještě přidat zakódování epsilon symbolu
+    # Zakódování epsilon symbolu na konci
     for i in range(8-j):
         bit_array[i+j] = "1"
 
