@@ -32,14 +32,6 @@ def RecalculateTree(node, node_added):
     else:
         return
 
-# def ReturnCodeOfNewSymbol(node):
-
-#     if (node.right_child is None):
-#        return ""
-
-#     else:
-#         return "1" + ReturnCodeOfNewSymbol(node.right_child)
-
 def ReturnCodeOfNewSymbol(node, previous_node):
 
     returning_symbol = "" 
