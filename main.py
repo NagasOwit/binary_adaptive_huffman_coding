@@ -145,6 +145,86 @@ def Encoding(input):
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
 
+def NewCompress(input):
+
+    string_to_encode = ""
+    s = input
+    buffer = bytearray()
+    bit_array = [0] * 8
+    j = 0
+
+    for element in input:        
+        new_symbol = not element in symbol_list        
+        if (new_symbol):
+            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
+            string_to_encode += element
+            AddNewSymbolToTree(element)
+        else:
+            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
+
+    print("Encoding")
+    
+    character_encoding = bin(ord(s[i]))[2:]
+
+    if (len(character_encoding) < 8):
+        character_encoding = character_encoding.zfill(8)
+        #print("Code of: " + s[i] + " is: " + character_encoding)
+
+    first_part = character_encoding[0:8-j]
+    second_part = character_encoding[8-j:8]
+
+    for k in range(len(first_part)):
+        bit_array[k+j] = int(first_part[k])
+
+    strings = [str(integer) for integer in bit_array]
+    a_string = "".join(strings)
+    an_integer = int(a_string, 2)
+    buffer.append(an_integer)
+
+    #print(a_string)
+    
+    original_j = j
+    j = -1
+
+    if (second_part):
+        for k in range(len(second_part)):
+            bit_array[k] = int(second_part[k])
+            j = original_j - 1
+
+    j += 1
+
+    if (j % 8 == 0 and j != 0):
+        strings = [str(integer) for integer in bit_array]
+        a_string = "".join(strings)
+        an_integer = int(a_string, 2)
+        buffer.append(an_integer)
+        #print(a_string)
+        j = 0
+    
+    # Musím na konec ještě přidat zakódování epsilon symbolu
+    for i in range(8-j):
+        bit_array[i+j] = "1"
+
+    strings = [str(integer) for integer in bit_array]
+    a_string = "".join(strings)
+    an_integer = int(a_string, 2)
+    buffer.append(an_integer)
+    #print(a_string)
+
+    epsilon_code = ReturnCodeOfNewSymbol(tree.root)
+    epsilon_code = epsilon_code[8-j:]
+
+    for i in range(len(epsilon_code)):
+        if (i + 1 % 8 == 0 and i != 0):
+            strings = [str(integer) for integer in bit_array]
+            a_string = "".join(strings)
+            an_integer = int(a_string, 2)
+            buffer.append(an_integer)
+            #print(a_string)
+
+    with open("compressed_file", 'bw') as f:
+        f.write(buffer)
+
 def Compress(input):
 
     string_to_encode = ""
