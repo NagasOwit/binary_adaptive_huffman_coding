@@ -56,30 +56,20 @@ def AddNewSymbolToTree(symbol):
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
 
-def IncreaseOccurenceAndReturnCode(symbol, node):
-
-    if (node.left_child.symbol == symbol):
-        node.left_child.count += 1
-        RecalculateTree(node, node.left_child)
-        return "0"
-        
-    else:
-        return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
-
-# def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
+def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
     
-#     returning_code += path
+    returning_code += path
 
-#     if (node is not None):
-#         if (node.symbol == symbol):
-#             node.count += 1
-#             RecalculateTree(node, node.left_child)
-#             return returning_code
+    if (node is not None):
+        if (node.symbol == symbol):
+            node.count += 1
+            RecalculateTree(node.parent, node)
+            return returning_code
         
-#         else:
-#             return IncreaseOccurenceAndReturnCode(symbol, node.left_child, returning_code, "0") + IncreaseOccurenceAndReturnCode(symbol, node.right_child, returning_code, "1")
-#     else:
-#         return ""
+        else:
+            return IncreaseOccurenceAndReturnCode(symbol, node.left_child, returning_code, "0") + IncreaseOccurenceAndReturnCode(symbol, node.right_child, returning_code, "1")
+    else:
+        return ""
 
 def FindSymbolInTree(input, node):
 
@@ -156,8 +146,7 @@ def Compress(input):
             AddNewSymbolToTree(element)
 
         else:
-            # string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root, "", "")
-            string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root)
+            string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root, "", "")
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
         if (j % 8 == 0 and j != 0):
