@@ -139,6 +139,7 @@ def Encoding(input):
 def NewCompress(input):
 
     string_to_encode = ""
+    debug_string = ""
     buffer = bytearray()
     bit_array = [0] * 8
     j = 0
@@ -150,6 +151,9 @@ def NewCompress(input):
         if (new_symbol):
 
             string_to_encode += ReturnCodeOfNewSymbol(tree.root)
+
+            debug_string += string_to_encode
+
             for i in range(len(string_to_encode)):                
                 bit_array[j] = int(string_to_encode[i])
                 j += 1
@@ -161,7 +165,9 @@ def NewCompress(input):
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + s[i] + " is: " + character_encoding)
+
+                debug_string += character_encoding
+                print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -214,6 +220,9 @@ def NewCompress(input):
 
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
+    
+    for i in range(0, len(debug_string), 8):
+        print(debug_string[i:i+8])
 
 def Compress(input):
 
