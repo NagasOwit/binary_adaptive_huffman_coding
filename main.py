@@ -76,67 +76,7 @@ def WriteToBuffer(bit_array, buffer):
 
     #print(a_string)
 
-def Encoding(input):
-
-    print("Encoding")
-
-    s = input
-    buffer = bytearray()
-    bit_array = [0] * 8
-    j = 0
-
-    for i in range(len(s)):
-        
-        if (s[i] == "0" or s[i] == "1"):
-            bit_array[j] = int(s[i])
-
-        else:
-            character_encoding = bin(ord(s[i]))[2:]
-
-            if (len(character_encoding) < 8):
-                character_encoding = character_encoding.zfill(8)                
-                #print("Code of: " + s[i] + " is: " + character_encoding)
-
-            first_part = character_encoding[0:8-j]
-            second_part = character_encoding[8-j:8]
-
-            for k in range(len(first_part)):
-                bit_array[k+j] = int(first_part[k])
-
-            WriteToBuffer(bit_array, buffer)
-            
-            original_j = j
-            j = -1
-
-            if (second_part):
-                for k in range(len(second_part)):
-                    bit_array[k] = int(second_part[k])
-                j = original_j - 1
-
-        j += 1
-
-        if (j % 8 == 0 and j != 0):
-            WriteToBuffer(bit_array, buffer)
-            j = 0
-        i += 1
-    
-    # Musím na konec ještě přidat zakódování epsilon symbolu
-    for i in range(8-j):
-        bit_array[i+j] = "1"
-
-    WriteToBuffer(bit_array, buffer)
-
-    epsilon_code = ReturnCodeOfNewSymbol(tree.root)
-    epsilon_code = epsilon_code[8-j:]
-
-    for i in range(len(epsilon_code)):
-        if (i + 1 % 8 == 0 and i != 0):
-            WriteToBuffer(bit_array, buffer)
-
-    with open("compressed_file", 'bw') as f:
-        f.write(buffer)
-
-def NewCompress(input):
+def Compress(input):
 
     string_to_encode = ""
     debug_string = ""
@@ -223,21 +163,6 @@ def NewCompress(input):
     #for i in range(0, len(debug_string), 8):
         #print(debug_string[i:i+8])
 
-def Compress(input):
-
-    string_to_encode = ""
-
-    for element in input:        
-        new_symbol = not element in symbol_list        
-        if (new_symbol):
-            string_to_encode += ReturnCodeOfNewSymbol(tree.root)
-            string_to_encode += element
-            AddNewSymbolToTree(element)
-        else:
-            string_to_encode += IncreaseOccurenceAndReturnCode(element, tree.root)
-
-    Encoding(string_to_encode)
-
 def Decompress():
     
     print("Decoding")
@@ -292,7 +217,7 @@ text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
-NewCompress(text_to_compress)
+Compress(text_to_compress)
 
 symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
