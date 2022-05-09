@@ -287,7 +287,7 @@ def Decompress():
 
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "tom marta at"
+text_to_compress = "taat"
 
 NewCompress(text_to_compress)
 
