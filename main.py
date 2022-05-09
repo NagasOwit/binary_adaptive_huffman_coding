@@ -59,14 +59,19 @@ def IncreaseOccurenceAndReturnCode(symbol, node):
         return "1" + IncreaseOccurenceAndReturnCode(symbol, node.right_child)
 
 def FindSymbolInTree(input, node):
-    if (input[0] == "0"):
-        node.left_child.count += 1 #increase occurence
-        symbol_to_return = node.left_child.symbol
-        RecalculateTree(node, node.left_child)
-        return symbol_to_return
+
+    if (input):
+        if (input[0] == "0"):
+            return "" + FindSymbolInTree(input[1:], node.left_child)
         
+        elif (input[0] == "1"):
+            return "" + FindSymbolInTree(input[1:], node.right_child)
+
     else:
-        return "" + FindSymbolInTree(input[1:], node.right_child)
+        node.count += 1 #increase occurence
+        symbol_to_return = node.symbol
+        RecalculateTree(node.parent, node)
+        return symbol_to_return
 
 def WriteToBuffer(bit_array, buffer):
 
