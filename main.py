@@ -33,7 +33,7 @@ buffer = bytearray() #Starting buffer
 #     else:
 #         return
 
-def RecalculateTree(node, node_added):
+def UpdateTree(node, node_added):
 
     while (node.parent is not None):
 
@@ -48,8 +48,6 @@ def RecalculateTree(node, node_added):
         node = node.parent
 
     node_added.count += 1
-
-
 
 def ReturnCodeOfNewSymbol(node, previous_node):
 
@@ -82,7 +80,7 @@ def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
 
     if (node is not None):
         if (node.symbol == symbol):
-            RecalculateTree(node.parent, node)
+            UpdateTree(node.parent, node)
             return returning_code
         
         else:
@@ -101,7 +99,7 @@ def FindSymbolInTree(input, node):
 
     else:
         symbol_to_return = node.symbol
-        RecalculateTree(node.parent, node)
+        UpdateTree(node.parent, node)
         return symbol_to_return
 
 def WriteToBuffer(bit_array, buffer):
@@ -239,7 +237,8 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "tom marta at tom marta at tom marta at tom marta at tom marta at tom marta at"
+text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
 Compress(text_to_compress)
