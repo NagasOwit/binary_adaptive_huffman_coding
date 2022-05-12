@@ -37,19 +37,18 @@ def UpdateTree(node, node_added):
 
     while (node.parent is not None):
 
-        if (node_added.count == node.parent.left_child.count): 
+        while (node_added.count == node.parent.left_child.count):          
+                node.left_child = node.parent.left_child
+                node.left_child.parent = node
+                node.parent.left_child = node_added
+                node_added.parent = node.parent
+                if (node.parent.parent is None):
+                    break
+                node = node.parent
 
-            node.left_child = node.parent.left_child
-            node.left_child.parent = node
-            node.parent.left_child = node_added
-            node_added.parent = node.parent
-
-        else:
-            node.count += 1
-            
+        node_added.count += 1
+        node_added = node
         node = node.parent
-
-    node_added.count += 1
 
 def ReturnCodeOfNewSymbol(node, previous_node):
 
