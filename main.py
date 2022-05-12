@@ -49,19 +49,13 @@ def AddNewSymbolToTree(symbol):
 
     UpdateTree()
 
-def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
+def IncreaseOccurenceAndReturnCode(symbol):
     
-    returning_code += path
-
-    if (node is not None):
-        if (node.symbol == symbol):
-            UpdateTree(node.parent, node)
-            return returning_code
-        
-        else:
-            return IncreaseOccurenceAndReturnCode(symbol, node.left_child, returning_code, "0") + IncreaseOccurenceAndReturnCode(symbol, node.right_child, returning_code, "1")
-    else:
-        return ""
+    for x in symbol_list:
+        if (x.symbol == symbol):
+            code = x.code
+            UpdateTree()
+            return code
 
 def FindSymbolInTree(input, node):
 
@@ -137,7 +131,7 @@ def Compress(input):
             AddNewSymbolToTree(element)
 
         else:
-            string_to_encode = IncreaseOccurenceAndReturnCode(element, tree.root, "", "")
+            string_to_encode = IncreaseOccurenceAndReturnCode(element, "", "")
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
         if (j % 8 == 0 and j != 0):
