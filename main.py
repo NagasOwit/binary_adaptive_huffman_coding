@@ -57,19 +57,13 @@ def IncreaseOccurenceAndReturnCode(symbol):
             UpdateTree()
             return code
 
-def FindSymbolInTree(input, node):
+def FindSymbolInTree(input):
 
-    if (input):
-        if (input[0] == "0"):
-            return "" + FindSymbolInTree(input[1:], node.left_child)
-        
-        elif (input[0] == "1"):
-            return "" + FindSymbolInTree(input[1:], node.right_child)
-
-    else:
-        symbol_to_return = node.symbol
-        UpdateTree(node.parent, node)
-        return symbol_to_return
+    for x in symbol_list:
+        if (x.code == input):
+            returning_symbol = x.symbol
+            return returning_symbol
+    
 
 def WriteToBuffer(bit_array, buffer):
 
@@ -131,7 +125,7 @@ def Compress(input):
             AddNewSymbolToTree(element)
 
         else:
-            string_to_encode = IncreaseOccurenceAndReturnCode(element, "", "")
+            string_to_encode = IncreaseOccurenceAndReturnCode(element)
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
         if (j % 8 == 0 and j != 0):
@@ -145,7 +139,7 @@ def Compress(input):
 
     WriteToBuffer(bit_array, buffer)
 
-    epsilon_code = ReturnCodeOfNewSymbol(tree.escape_symbol.parent, tree.escape_symbol)[::-1]
+    epsilon_code = ReturnCodeOfNewSymbol()
     epsilon_code = epsilon_code[8-j:]
 
     for i in range(len(epsilon_code)):
@@ -195,7 +189,7 @@ def Decompress():
                         working_byte = ""
 
                     elif (new_byte[i] == "0"):
-                        decoded_string += FindSymbolInTree(working_byte, tree.root)
+                        decoded_string += FindSymbolInTree(working_byte)
                         working_byte = ""
 
         print(decoded_string)
