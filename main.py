@@ -1,43 +1,22 @@
-import bitarray
 import sys
 
 class Node:
 
-    def __init__(self, symbol, parent, left_child, right_child, count, index):
+    def __init__(self, symbol, index, left_child, right_child, count):
         self.symbol = symbol
-        self.parent = parent
+        self.index = index
         self.left_child = left_child
         self.right_child = right_child
         self.count = count
-        self.index = index
 
-class HuffmanTree:
-    escape_symbol = Node("", None, None, None, 0, 0)
-    root = escape_symbol
-
+escape_symbol = Node("", 0, None, None, 0)
 symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
+symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
-
-# def UpdateTree(node, node_added):
-
-#     if (node.parent is None):
-#         return
-
-#     elif (node_added.count == node.parent.left_child.count):
-#         node.left_child = node.parent.left_child
-#         node.left_child.parent = node
-#         node.parent.left_child = node_added
-#         node_added.parent = node.parent
-#         UpdateTree(node.parent, node_added)
-#     else:
-#         return
 
 def UpdateTree(node, node_added):
 
     if (node.parent is None):
-        node_added.count += 1
-        node.count += 1
         return
 
     elif (node_added.count == node.parent.left_child.count):
@@ -46,11 +25,8 @@ def UpdateTree(node, node_added):
         node.parent.left_child = node_added
         node_added.parent = node.parent
         UpdateTree(node.parent, node_added)
-
     else:
-        node_added.count += 1
-        node_added = node
-        UpdateTree(node.parent, node_added)
+        return
 
 def ReturnCodeOfNewSymbol(node, previous_node):
 
@@ -70,12 +46,19 @@ def ReturnCodeOfNewSymbol(node, previous_node):
 
 def AddNewSymbolToTree(symbol):
 
-    symbol_list.append(symbol)    
-    new_node = tree.escape_symbol
-    new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
-    new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
-    tree.escape_symbol = new_node.right_child
-    UpdateTree(new_node, new_node.left_child)
+    epsilon_symbol = symbol_list[-1]
+    end_index = epsilon_symbol.index
+
+    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0)
+    left_child = Node(symbol, end_index + 1, None, None, 0)
+    right_child = Node("", end_index + 2, None, None, 0)
+
+    symbol_list[-1] = new_symbol    
+    symbol_list.append(new_symbol)
+    symbol_list.append(left_child)
+    symbol_list.append(right_child)  
+
+    UpdateTree()
 
 def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
     
@@ -238,15 +221,12 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis.txt", "r").read()
+#text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "barbaraabarboraubaru"
+text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
 Compress(text_to_compress)
-
 symbol_list = [] #list of symbols
-tree = HuffmanTree() #Epsilon, starts as root
-
 Decompress()
