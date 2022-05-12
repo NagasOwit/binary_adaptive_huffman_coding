@@ -34,10 +34,11 @@ def UpdateTree(index):
 
         if (highest_value):
 
-            tmp_node = symbol_list[highest_value]
+            tmp_symbol = symbol_list[highest_value].symbol
+            tmp_count = symbol_list[highest_value].count
             symbol_list[highest_value].symbol = node_to_raise.symbol
-            symbol_list[index].symbol = tmp_node.symbol
-            symbol_list[index].count = tmp_node.count
+            symbol_list[index].symbol = tmp_symbol
+            symbol_list[index].count = tmp_count
             index = highest_value
 
         symbol_list[index].count += 1
