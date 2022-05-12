@@ -19,7 +19,7 @@ symbol_list = [] #list of symbols
 tree = HuffmanTree() #Epsilon, starts as root
 buffer = bytearray() #Starting buffer
 
-# def RecalculateTree(node, node_added):
+# def UpdateTree(node, node_added):
 
 #     if (node.parent is None):
 #         return
@@ -29,7 +29,7 @@ buffer = bytearray() #Starting buffer
 #         node.left_child.parent = node
 #         node.parent.left_child = node_added
 #         node_added.parent = node.parent
-#         RecalculateTree(node.parent, node_added)
+#         UpdateTree(node.parent, node_added)
 #     else:
 #         return
 
@@ -44,7 +44,7 @@ def UpdateTree(node, node_added):
             node.parent.left_child = node_added
             node_added.parent = node.parent
 
-        node_added.count += 1
+        node.count += 1
         node = node.parent
 
     node_added.count += 1
@@ -235,9 +235,9 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis.txt", "r").read()
+text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
