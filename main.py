@@ -24,12 +24,12 @@ def UpdateTree(index):
         filter_list = []
         highest_value = 0
 
-        for x in range(index):
+        for i in range(index):
 
-            if (symbol_list[x].count == node_to_raise.count):
-                filter_list.append(symbol_list[x].index)
+            if (symbol_list[i].count == node_to_raise.count):
+                filter_list.append(symbol_list[i])
 
-        highest_value = max(filter_list)
+        highest_value = min(node.index for node in filter_list)
 
         if (highest_value):
 
@@ -38,10 +38,12 @@ def UpdateTree(index):
             symbol_list[highest_value].count = node_to_raise.count + 1
             symbol_list[index].symbol = tmp_node.symbol
             symbol_list[index].count = tmp_node.count
+            index = highest_value
         
-        for x in range(index):
-            if (symbol_list[x].left_child == index or symbol_list[x].right_child == index):
-                index = x
+        for j in range(index):
+            if (symbol_list[j].left_child == index or symbol_list[j].right_child == index):
+                index = j
+                break
 
 
         
@@ -57,12 +59,11 @@ def AddNewSymbolToTree(symbol):
     epsilon_symbol = symbol_list[-1]
     end_index = epsilon_symbol.index
 
-    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0, epsilon_symbol.code)
+    new_symbol = Node("", end_index, end_index + 1, end_index + 2, 0, epsilon_symbol.code)
     left_child = Node(symbol, end_index + 1, None, None, 0, epsilon_symbol.code + "0")
     right_child = Node("", end_index + 2, None, None, 0, epsilon_symbol.code + "1")
 
     symbol_list[-1] = new_symbol    
-    symbol_list.append(new_symbol)
     symbol_list.append(left_child)
     symbol_list.append(right_child)  
 
