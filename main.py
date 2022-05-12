@@ -15,19 +15,9 @@ symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 
-def UpdateTree(node, node_added):
-
-    if (node.parent is None):
-        return
-
-    elif (node_added.count == node.parent.left_child.count):
-        node.left_child = node.parent.left_child
-        node.left_child.parent = node
-        node.parent.left_child = node_added
-        node_added.parent = node.parent
-        UpdateTree(node.parent, node_added)
-    else:
-        return
+def UpdateTree(index):
+    pass
+    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
@@ -47,14 +37,14 @@ def AddNewSymbolToTree(symbol):
     symbol_list.append(left_child)
     symbol_list.append(right_child)  
 
-    UpdateTree()
+    UpdateTree(left_child.index)
 
 def IncreaseOccurenceAndReturnCode(symbol):
     
     for x in symbol_list:
         if (x.symbol == symbol):
             code = x.code
-            UpdateTree()
+            UpdateTree(x.index)
             return code
 
 def FindSymbolInTree(input):
