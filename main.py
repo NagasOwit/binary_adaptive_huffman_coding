@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 
 class Node:
 
@@ -16,7 +17,16 @@ symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 
 def UpdateTree(index):
-    pass
+    
+    while(index != 0):
+
+        node_to_raise = symbol_list[index]        
+        filter_list = []
+        for x in range(index):
+
+            if (symbol_list[x].count == node_to_raise.count):
+                filter_list.append(symbol_list[x].index)
+
     
 
 def ReturnCodeOfNewSymbol():
@@ -190,9 +200,9 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "barbaraabarboraubaru"
+text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
-text_to_compress = "taat"
+#text_to_compress = "taat"
 
 Compress(text_to_compress)
 escape_symbol = Node("", 0, None, None, 0, "")
