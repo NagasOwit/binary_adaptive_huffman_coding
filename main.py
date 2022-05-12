@@ -44,7 +44,9 @@ def UpdateTree(node, node_added):
             node.parent.left_child = node_added
             node_added.parent = node.parent
 
-        node.count += 1
+        else:
+            node.count += 1
+            
         node = node.parent
 
     node_added.count += 1
@@ -69,7 +71,7 @@ def AddNewSymbolToTree(symbol):
 
     symbol_list.append(symbol)    
     new_node = tree.escape_symbol
-    new_node.left_child =  Node(symbol, new_node, None, None, 1, new_node.index + 1)
+    new_node.left_child =  Node(symbol, new_node, None, None, 0, new_node.index + 1)
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
     UpdateTree(new_node, new_node.left_child)
