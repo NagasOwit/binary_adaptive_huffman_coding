@@ -224,11 +224,16 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "barbaraabarboraubaru"
-text_to_compress = "tom marta at"
+text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
 Compress(text_to_compress)
+
+for x in symbol_list:
+    print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
+
+
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
