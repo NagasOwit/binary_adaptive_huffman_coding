@@ -30,7 +30,8 @@ def UpdateTree(index):
             if (symbol_list[i].count == node_to_raise.count):
                 filter_list.append(symbol_list[i])
 
-        highest_value = min(node.index for node in filter_list)
+        if (filter_list):
+            highest_value = min(node.index for node in filter_list)
 
         if (highest_value):
 
