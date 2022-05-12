@@ -15,6 +15,7 @@ escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
+all_symbols = []
 
 def UpdateTree(index):
     
@@ -112,10 +113,13 @@ def Compress(input):
 
     print("Compressing...")
 
-    for element in input:        
-        new_symbol = not element in symbol_list        
-        if (new_symbol):
+    for element in input:
 
+        new_symbol = not element in all_symbols    
+
+        if (new_symbol):
+            
+            all_symbols.append(element)
             string_to_encode = ReturnCodeOfNewSymbol()
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
@@ -221,8 +225,8 @@ def Decompress():
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
-#text_to_compress = "tom marta at"
-text_to_compress = "taat"
+text_to_compress = "tom marta at"
+#text_to_compress = "taat"
 
 Compress(text_to_compress)
 escape_symbol = Node("", 0, None, None, 0, "")
