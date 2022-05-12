@@ -2,14 +2,15 @@ import sys
 
 class Node:
 
-    def __init__(self, symbol, index, left_child, right_child, count):
+    def __init__(self, symbol, index, left_child, right_child, count, code):
         self.symbol = symbol
         self.index = index
         self.left_child = left_child
         self.right_child = right_child
         self.count = count
+        self.code = code
 
-escape_symbol = Node("", 0, None, None, 0)
+escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
@@ -28,30 +29,18 @@ def UpdateTree(node, node_added):
     else:
         return
 
-def ReturnCodeOfNewSymbol(node, previous_node):
-
-    returning_symbol = "" 
-    if (node is None):
-       return returning_symbol
-
-    else:
-       
-        if (node.left_child == previous_node):
-            returning_symbol = "0"
-        
-        if (node.right_child == previous_node):
-            returning_symbol = "1"
-
-        return returning_symbol + ReturnCodeOfNewSymbol(node.parent, node)
+def ReturnCodeOfNewSymbol():
+    return symbol_list[-1].code
+    
 
 def AddNewSymbolToTree(symbol):
 
     epsilon_symbol = symbol_list[-1]
     end_index = epsilon_symbol.index
 
-    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0)
-    left_child = Node(symbol, end_index + 1, None, None, 0)
-    right_child = Node("", end_index + 2, None, None, 0)
+    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0, epsilon_symbol)
+    left_child = Node(symbol, end_index + 1, None, None, 0, epsilon_symbol + "0")
+    right_child = Node("", end_index + 2, None, None, 0, epsilon_symbol + "1")
 
     symbol_list[-1] = new_symbol    
     symbol_list.append(new_symbol)
@@ -119,7 +108,7 @@ def Compress(input):
         new_symbol = not element in symbol_list        
         if (new_symbol):
 
-            string_to_encode = ReturnCodeOfNewSymbol(tree.escape_symbol.parent, tree.escape_symbol)[::-1]
+            string_to_encode = ReturnCodeOfNewSymbol()
             j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
             character_encoding = bin(ord(element))[2:]
