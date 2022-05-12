@@ -36,20 +36,16 @@ def UpdateTree(index):
 
             tmp_node = symbol_list[highest_value]
             symbol_list[highest_value].symbol = node_to_raise.symbol
-            symbol_list[highest_value].count = node_to_raise.count + 1
             symbol_list[index].symbol = tmp_node.symbol
             symbol_list[index].count = tmp_node.count
             index = highest_value
+
+        symbol_list[index].count += 1
         
         for j in range(index):
             if (symbol_list[j].left_child == index or symbol_list[j].right_child == index):
                 index = j
-                break
-
-
-        
-
-    
+                break    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
@@ -72,10 +68,10 @@ def AddNewSymbolToTree(symbol):
 
 def IncreaseOccurenceAndReturnCode(symbol):
     
-    for x in symbol_list:
-        if (x.symbol == symbol):
-            code = x.code
-            UpdateTree(x.index)
+    for x in range(len(symbol_list)):
+        if (symbol_list[x].symbol == symbol):
+            code = symbol_list[x].code
+            UpdateTree(symbol_list[x].index)
             return code
 
 def FindSymbolInTree(input):
