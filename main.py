@@ -69,10 +69,10 @@ def AddNewSymbolToTree(symbol):
 
     symbol_list.append(symbol)    
     new_node = tree.escape_symbol
-    new_node.count = 1
     new_node.left_child =  Node(symbol, new_node, None, None, 1, new_node.index + 1)
     new_node.right_child = Node("", new_node, None, None, 0, new_node.index + 2)
     tree.escape_symbol = new_node.right_child
+    UpdateTree(new_node, new_node.left_child)
 
 def IncreaseOccurenceAndReturnCode(symbol, node, returning_code, path):
     
@@ -235,9 +235,9 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis.txt", "r").read()
+#text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-#text_to_compress = "barbaraabarboraubaru"
+text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 #text_to_compress = "taat"
 
