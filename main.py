@@ -28,9 +28,9 @@ def AddNewSymbolToTree(symbol):
     epsilon_symbol = symbol_list[-1]
     end_index = epsilon_symbol.index
 
-    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0, epsilon_symbol)
-    left_child = Node(symbol, end_index + 1, None, None, 0, epsilon_symbol + "0")
-    right_child = Node("", end_index + 2, None, None, 0, epsilon_symbol + "1")
+    new_symbol = Node(symbol, end_index, end_index + 1, end_index + 2, 0, epsilon_symbol.code)
+    left_child = Node(symbol, end_index + 1, None, None, 0, epsilon_symbol.code + "0")
+    right_child = Node("", end_index + 2, None, None, 0, epsilon_symbol.code + "1")
 
     symbol_list[-1] = new_symbol    
     symbol_list.append(new_symbol)
@@ -190,10 +190,12 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
-#text_to_compress = "taat"
+text_to_compress = "taat"
 
 Compress(text_to_compress)
+escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
+symbol_list.append(escape_symbol)
 Decompress()
