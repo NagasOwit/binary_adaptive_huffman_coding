@@ -18,14 +18,33 @@ buffer = bytearray() #Starting buffer
 
 def UpdateTree(index):
     
-    while(index != 0):
+    while (index != 0):
 
         node_to_raise = symbol_list[index]        
         filter_list = []
+        highest_value = 0
+
         for x in range(index):
 
             if (symbol_list[x].count == node_to_raise.count):
                 filter_list.append(symbol_list[x].index)
+
+        highest_value = max(filter_list)
+
+        if (highest_value):
+
+            tmp_node = symbol_list[highest_value]
+            symbol_list[highest_value].symbol = node_to_raise.symbol
+            symbol_list[highest_value].count = node_to_raise.count + 1
+            symbol_list[index].symbol = tmp_node.symbol
+            symbol_list[index].count = tmp_node.count
+        
+        for x in range(index):
+            if (symbol_list[x].left_child == index or symbol_list[x].right_child == index):
+                index = x
+
+
+        
 
     
 
@@ -200,9 +219,9 @@ def Decompress():
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
-text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
-#text_to_compress = "taat"
+text_to_compress = "taat"
 
 Compress(text_to_compress)
 escape_symbol = Node("", 0, None, None, 0, "")
