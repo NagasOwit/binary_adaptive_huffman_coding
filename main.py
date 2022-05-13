@@ -45,21 +45,23 @@ def UpdateTree(index):
         if (filter_list):
             highest_value = min(node.index for node in filter_list)
 
-        if (highest_value):
+        if (highest_value ):
 
-            tmp_node = Node(symbol_list[highest_value].symbol, 0, symbol_list[highest_value].left_child,
-            symbol_list[highest_value].right_child, symbol_list[highest_value].count, symbol_list[highest_value].code)
+            if (highest_value != index - 1):
 
-            symbol_list[highest_value].symbol = node_to_raise.symbol
-            symbol_list[highest_value].left_child = node_to_raise.left_child
-            symbol_list[highest_value].right_child = node_to_raise.right_child
+                tmp_node = Node(symbol_list[highest_value].symbol, 0, symbol_list[highest_value].left_child,
+                symbol_list[highest_value].right_child, symbol_list[highest_value].count, symbol_list[highest_value].code)
 
-            symbol_list[index].symbol = tmp_node.symbol
-            symbol_list[index].count = tmp_node.count
-            symbol_list[index].left_child = tmp_node.left_child
-            symbol_list[index].right_child = tmp_node.right_child
+                symbol_list[highest_value].symbol = node_to_raise.symbol
+                symbol_list[highest_value].left_child = node_to_raise.left_child
+                symbol_list[highest_value].right_child = node_to_raise.right_child
 
-            index = highest_value
+                symbol_list[index].symbol = tmp_node.symbol
+                symbol_list[index].count = tmp_node.count
+                symbol_list[index].left_child = tmp_node.left_child
+                symbol_list[index].right_child = tmp_node.right_child
+
+                index = highest_value
 
         symbol_list[index].count += 1
         
@@ -129,10 +131,10 @@ def Compress(input):
 
         new_symbol = not element in all_symbols
 
-        if (element == 'o'):
-            for x in symbol_list:
-                if (x.symbol):
-                    print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
+        # if (element == 'o'):
+        #     for x in symbol_list:
+        #         if (x.symbol):
+        #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
 
         if (new_symbol):
             
@@ -212,7 +214,7 @@ def Decompress():
             
             #print("Byte, se kterým se pracuje: " + new_byte)
 
-            # if (new_byte == "10011011"):
+            # if (new_byte == "10001101"):
             #     for x in symbol_list:
             #         if (x.symbol):
             #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
@@ -239,6 +241,8 @@ def Decompress():
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
                         #print("Byte, se kterým se pracuje: " + new_byte)
+                        # if (new_byte == "10001101"):
+                        #     print("haha")
 
                     new_symbol = chr(int(new_symbol, 2))
                     decoded_string += new_symbol
@@ -263,9 +267,9 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis.txt", "r").read()
+text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_testing.txt", "r").read()
-text_to_compress = "barbaraabarboraubaru"
+#text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 #text_to_compress = "1234511222333344444555555"
 
