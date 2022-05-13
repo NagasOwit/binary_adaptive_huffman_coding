@@ -47,21 +47,19 @@ def UpdateTree(index):
 
         if (highest_value):
 
-            if (highest_value != (index - 1)):
+            tmp_node = Node(symbol_list[highest_value].symbol, 0, symbol_list[highest_value].left_child,
+            symbol_list[highest_value].right_child, symbol_list[highest_value].count, symbol_list[highest_value].code)
 
-                tmp_node = Node(symbol_list[highest_value].symbol, 0, symbol_list[highest_value].left_child,
-                symbol_list[highest_value].right_child, symbol_list[highest_value].count, symbol_list[highest_value].code)
+            symbol_list[highest_value].symbol = node_to_raise.symbol
+            symbol_list[highest_value].left_child = node_to_raise.left_child
+            symbol_list[highest_value].right_child = node_to_raise.right_child
 
-                symbol_list[highest_value].symbol = node_to_raise.symbol
-                symbol_list[highest_value].left_child = node_to_raise.left_child
-                symbol_list[highest_value].right_child = node_to_raise.right_child
+            symbol_list[index].symbol = tmp_node.symbol
+            symbol_list[index].count = tmp_node.count
+            symbol_list[index].left_child = tmp_node.left_child
+            symbol_list[index].right_child = tmp_node.right_child
 
-                symbol_list[index].symbol = tmp_node.symbol
-                symbol_list[index].count = tmp_node.count
-                symbol_list[index].left_child = tmp_node.left_child
-                symbol_list[index].right_child = tmp_node.right_child
-
-                index = highest_value
+            index = highest_value
 
         symbol_list[index].count += 1
         
@@ -131,7 +129,7 @@ def Compress(input):
 
         new_symbol = not element in all_symbols
 
-        # if (element == "w"):
+        # if (element == '"'):
         #     for x in symbol_list:
         #         if (x.symbol):
         #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
@@ -251,6 +249,7 @@ def Decompress():
                         current_index = 0
 
                     elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
+                        
                         decoded_string += symbol_list[current_index].symbol
                         UpdateTree(current_index)
 
