@@ -18,6 +18,16 @@ symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 all_symbols = []
 
+def RecalculateTree(index, code):
+
+    symbol_list[index].code = code
+
+    if (symbol_list[index].left_child is not None and symbol_list[index].right_child is not None):
+
+        RecalculateTree(symbol_list[index].left_child, code + "0")
+        RecalculateTree(symbol_list[index].right_child, code + "1")
+    
+
 def UpdateTree(index):
     
     while (index != 0):
@@ -39,7 +49,7 @@ def UpdateTree(index):
             if (highest_value != (index - 1)):
 
                 tmp_node = Node(symbol_list[highest_value].symbol, 0, symbol_list[highest_value].left_child,
-                symbol_list[highest_value].right_child, symbol_list[highest_value].count, "")
+                symbol_list[highest_value].right_child, symbol_list[highest_value].count, symbol_list[highest_value].code)
 
                 symbol_list[highest_value].symbol = node_to_raise.symbol
                 symbol_list[highest_value].left_child = node_to_raise.left_child
@@ -57,7 +67,9 @@ def UpdateTree(index):
         for j in range(index):
             if (symbol_list[j].left_child == index or symbol_list[j].right_child == index):
                 index = j
-                break    
+                break
+
+    RecalculateTree(0, "")    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
@@ -94,7 +106,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    print(a_string)
+    #print(a_string)
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
@@ -127,7 +139,7 @@ def Compress(input):
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                print("Code of: " + element + " is: " + character_encoding)
+                #print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -191,7 +203,7 @@ def Decompress():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            print("Byte, se kterým se pracuje: " + new_byte)
+            #print("Byte, se kterým se pracuje: " + new_byte)
 
             if (new_byte != "00000000"):
                 for i in range(len(new_byte)):
@@ -239,8 +251,8 @@ def Decompress():
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
-text_to_compress = "tom marta at"
-#text_to_compress = "12345"
+#text_to_compress = "tom marta at"
+text_to_compress = "12345"
 
 Compress(text_to_compress)
 
