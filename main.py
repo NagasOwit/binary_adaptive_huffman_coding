@@ -1,3 +1,4 @@
+from calendar import c
 import sys
 import numpy as np
 
@@ -84,13 +85,6 @@ def IncreaseOccurenceAndReturnCode(symbol):
             code = symbol_list[x].code
             UpdateTree(symbol_list[x].index)
             return code
-
-def FindSymbolInTree(input):
-
-    for x in symbol_list:
-        if (x.code == input):
-            returning_symbol = x.symbol
-            return returning_symbol
     
 
 def WriteToBuffer(bit_array, buffer):
@@ -190,6 +184,7 @@ def Decompress():
         AddNewSymbolToTree(b.decode("utf-8"))
         epsilon_symbol = "1"
         working_byte = ""
+        current_index = 0
 
         while b:
 
@@ -202,6 +197,14 @@ def Decompress():
                 for i in range(len(new_byte)):
 
                     working_byte += new_byte[i]
+
+                    if (new_byte[i] == "0"):
+                        current_index += 1
+
+                    else:
+                        current_index += 2
+
+
                     if (working_byte == epsilon_symbol):
 
                         if (i == 7):
@@ -218,10 +221,12 @@ def Decompress():
                         AddNewSymbolToTree(new_symbol)
                         epsilon_symbol += "1"
                         working_byte = ""
+                        current_index = 0
 
-                    elif (new_byte[i] == "0"):
-                        decoded_string += FindSymbolInTree(working_byte)
+                    elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
+                        decoded_string += symbol_list[current_index].symbol
                         working_byte = ""
+                        current_index = 0
 
         print(decoded_string)
 
