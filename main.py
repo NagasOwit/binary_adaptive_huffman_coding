@@ -268,10 +268,8 @@ def Decompress():
 
 #text_to_compress = open("fullBible.txt", "r").read()
 text_to_compress = open("book_of_genesis.txt", "r").read()
-#text_to_compress = open("book_of_genesis_testing.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
-#text_to_compress = "1234511222333344444555555"
 
 Compress(text_to_compress)
 
