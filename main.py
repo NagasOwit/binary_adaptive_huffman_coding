@@ -191,7 +191,7 @@ def Decompress():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            #print("Byte, se kterým se pracuje: " + new_byte)
+            print("Byte, se kterým se pracuje: " + new_byte)
 
             if (new_byte != "00000000"):
                 for i in range(len(new_byte)):
@@ -219,7 +219,8 @@ def Decompress():
                         new_symbol = chr(int(new_symbol, 2))
                         decoded_string += new_symbol
                         AddNewSymbolToTree(new_symbol)
-                        epsilon_symbol += "1"
+                        
+                        epsilon_symbol = symbol_list[-1].code
                         working_byte = ""
                         current_index = 0
 
