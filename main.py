@@ -12,7 +12,7 @@ class Node:
         self.count = count
         self.code = code
 
-escape_symbol = Node("epsilon", 0, None, None, 0, "")
+escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
@@ -106,7 +106,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    print(a_string)
+    #print(a_string)
 
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
@@ -131,10 +131,10 @@ def Compress(input):
 
         new_symbol = not element in all_symbols
 
-        if (element == "w"):
-            for x in symbol_list:
-                if (x.symbol):
-                    print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
+        # if (element == "w"):
+        #     for x in symbol_list:
+        #         if (x.symbol):
+        #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
 
         if (new_symbol):
             
@@ -211,7 +211,7 @@ def Decompress():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            print("Byte, se kterým se pracuje: " + new_byte)
+            #print("Byte, se kterým se pracuje: " + new_byte)
 
             # if (new_byte == "10011011"):
             #     for x in symbol_list:
@@ -240,7 +240,7 @@ def Decompress():
                             string_byte_to_fill = string_byte_to_fill.zfill(8)
                             new_symbol += string_byte_to_fill[:i+1]
                             new_byte = string_byte_to_fill
-                            print("Byte, se kterým se pracuje: " + new_byte)
+                            #print("Byte, se kterým se pracuje: " + new_byte)
 
                         new_symbol = chr(int(new_symbol, 2))
                         decoded_string += new_symbol
@@ -253,6 +253,8 @@ def Decompress():
                     elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
                         decoded_string += symbol_list[current_index].symbol
                         UpdateTree(current_index)
+
+                        epsilon_symbol = symbol_list[-1].code
                         working_byte = ""
                         current_index = 0
 
@@ -262,8 +264,8 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = open("book_of_genesis.txt", "r").read()
-text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
+text_to_compress = open("book_of_genesis.txt", "r").read()
+#text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 #text_to_compress = "1234511222333344444555555"
