@@ -199,10 +199,10 @@ def Decompress():
                     working_byte += new_byte[i]
 
                     if (new_byte[i] == "0"):
-                        current_index += 1
+                        current_index = symbol_list[current_index].left_child
 
                     else:
-                        current_index += 2
+                        current_index = symbol_list[current_index].right_child
 
 
                     if (working_byte == epsilon_symbol):
@@ -239,8 +239,8 @@ def Decompress():
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
-#text_to_compress = "tom marta at"
-text_to_compress = "12345"
+text_to_compress = "tom marta at"
+#text_to_compress = "12345"
 
 Compress(text_to_compress)
 
