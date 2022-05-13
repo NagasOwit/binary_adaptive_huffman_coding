@@ -219,7 +219,7 @@ def Decompress():
                         new_symbol = chr(int(new_symbol, 2))
                         decoded_string += new_symbol
                         AddNewSymbolToTree(new_symbol)
-                        
+
                         epsilon_symbol = symbol_list[-1].code
                         working_byte = ""
                         current_index = 0
@@ -228,6 +228,7 @@ def Decompress():
                         decoded_string += symbol_list[current_index].symbol
                         working_byte = ""
                         current_index = 0
+                        UpdateTree(current_index)
 
         print(decoded_string)
 
