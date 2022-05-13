@@ -94,7 +94,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    #print(a_string)
+    print(a_string)
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
@@ -127,7 +127,7 @@ def Compress(input):
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + element + " is: " + character_encoding)
+                print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -191,7 +191,7 @@ def Decompress():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            #print("Byte, se kterým se pracuje: " + new_byte)
+            print("Byte, se kterým se pracuje: " + new_byte)
 
             if (new_byte != "00000000"):
                 for i in range(len(new_byte)):
@@ -237,10 +237,10 @@ def Decompress():
 
 #text_to_compress = open("fullBible.txt", "r").read()
 #text_to_compress = open("book_of_genesis.txt", "r").read()
-text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
+#text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
-#text_to_compress = "taat"
+text_to_compress = "12345"
 
 Compress(text_to_compress)
 
