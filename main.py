@@ -12,7 +12,7 @@ class Node:
         self.count = count
         self.code = code
 
-escape_symbol = Node("", 0, None, None, 0, "")
+escape_symbol = Node("epsilon", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
@@ -145,7 +145,7 @@ def Compress(input):
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                print("Code of: " + element + " is: " + character_encoding)
+                #print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -211,7 +211,7 @@ def Decompress():
             b = fh.read(1)
             new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
             new_byte = new_byte.zfill(8)
-            #print("Byte, se kterým se pracuje: " + new_byte)
+            print("Byte, se kterým se pracuje: " + new_byte)
 
             # if (new_byte == "10011011"):
             #     for x in symbol_list:
