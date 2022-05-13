@@ -100,7 +100,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    #print(a_string)
+    print(a_string)
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
@@ -133,7 +133,7 @@ def Compress(input):
             character_encoding = bin(ord(element))[2:]
             if (len(character_encoding) < 8):
                 character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + element + " is: " + character_encoding)
+                print("Code of: " + element + " is: " + character_encoding)
             
             first_part = character_encoding[0:8-j]
             second_part = character_encoding[8-j:8]
@@ -232,14 +232,13 @@ def Decompress():
 #text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = open("book_of_genesis_without_numbers.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
-text_to_compress = "tom marta at"
-#text_to_compress = "taat"
+#text_to_compress = "tom marta at"
+text_to_compress = "taat"
 
 Compress(text_to_compress)
 
 # for x in symbol_list:
 #     print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
-
 
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
