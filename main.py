@@ -125,7 +125,7 @@ def Compress():
 
     print("Compressing...")
 
-    with open("book_of_genesis.txt", "rb") as fh:
+    with open("test.txt", "rb") as fh:
 
         b = fh.read(1)
 
@@ -203,7 +203,7 @@ def Decompress():
         b = fh.read(1)
         new_symbol = b.decode("utf-8")
         AddNewSymbolToTree(new_symbol)
-        decoded_string = new_symbol
+        decoded_string = b
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
@@ -242,7 +242,7 @@ def Decompress():
                         new_byte = string_byte_to_fill
 
                     new_symbol = chr(int(new_symbol, 2))
-                    decoded_string += new_symbol
+                    decoded_string += new_symbol.encode("utf-8")
                     AddNewSymbolToTree(new_symbol)
 
                     epsilon_symbol = symbol_list[-1].code
@@ -251,14 +251,17 @@ def Decompress():
 
                 elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
                     
-                    decoded_string += symbol_list[current_index].symbol
+                    decoded_string += symbol_list[current_index].symbol.encode("utf-8")
                     UpdateTree(current_index)
 
                     epsilon_symbol = symbol_list[-1].code
                     working_byte = ""
                     current_index = 0
 
-        print(decoded_string)
+        fh.close()
+        f = open("uncompressed_file", "wb")
+        f.write(decoded_string)
+        f.close()
 
 
 #Testing part of the application
