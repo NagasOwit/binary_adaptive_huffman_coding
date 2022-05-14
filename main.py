@@ -1,4 +1,5 @@
 import sys
+import timeit
 
 class Node:
 
@@ -118,7 +119,7 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
 
 
 def Compress():
-    
+
     string_to_encode = ""
     bit_array = [0] * 8
     j = 0
@@ -272,8 +273,11 @@ def Decompress():
 #text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 
+start = timeit.timeit()
 Compress()
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 Decompress()
+end = timeit.timeit()
+print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
