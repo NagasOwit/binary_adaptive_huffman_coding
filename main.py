@@ -1,5 +1,6 @@
 import sys
 import timeit
+import os
 
 class Node:
 
@@ -280,4 +281,9 @@ symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 Decompress()
 end = timeit.timeit()
+
+original_size = os.path.getsize("test.txt")
+compressed_size = os.path.getsize("compressed_file")
 print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
+print("Původní velikost souboru byla: " + str() + " bajtů.\nPo zkomprimování byla velikost: " + str() + " bajtů.")
+print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
