@@ -104,7 +104,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    #print(a_string)
+    print(a_string)
 
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
@@ -125,7 +125,7 @@ def Compress():
 
     print("Compressing...")
 
-    with open("book_of_genesis.txt", "rb") as fh:
+    with open("test.txt", "rb") as fh:
 
         b = fh.read(1)
 
@@ -144,7 +144,7 @@ def Compress():
                 character_encoding = bin(ord(element))[2:]
                 if (len(character_encoding) < 8):
                     character_encoding = character_encoding.zfill(8)
-                    #print("Code of: " + element + " is: " + character_encoding)
+                    print("Code of: " + element + " is: " + character_encoding)
                 
                 first_part = character_encoding[0:8-j]
                 second_part = character_encoding[8-j:8]
@@ -177,13 +177,20 @@ def Compress():
             b = fh.read(1)
     
     # Zbytek kódu, co se nemusí vlézt do 1 byte a zároveň zakódování epsilon symbolu.
+    for i in range(8-j):
+        bit_array[i+j] = "0"
+
     epsilon_code = ReturnCodeOfNewSymbol()
     j = WriteStringToBitArrayThenBuffer(bit_array, j, epsilon_code)
 
-    for x in symbol_list:
-        if x.symbol == "j":
-            print("symbol: " + x.symbol + " code: " + x.code + " children " +  str(x.left_child) + " " + str(x.right_child)) 
-            print("epsilon_symbol: " + epsilon_code)
+    if (j != 0):
+        WriteToBuffer(bit_array, buffer)
+
+
+    # for x in symbol_list:
+    #     if x.symbol == "j":
+    #         print("symbol: " + x.symbol + " code: " + x.code + " children " +  str(x.left_child) + " " + str(x.right_child)) 
+    #         print("epsilon_symbol: " + epsilon_code)
 
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
