@@ -1,6 +1,4 @@
-from calendar import c
 import sys
-import numpy as np
 
 class Node:
 
@@ -217,11 +215,6 @@ def Decompress():
             
             #print("Byte, se kterým se pracuje: " + new_byte)
 
-            # if (new_byte == "10001101"):
-            #     for x in symbol_list:
-            #         if (x.symbol):
-            #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
-
             for i in range(len(new_byte)):
 
                 working_byte += new_byte[i]
@@ -243,9 +236,6 @@ def Decompress():
                         string_byte_to_fill = string_byte_to_fill.zfill(8)
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
-                        #print("Byte, se kterým se pracuje: " + new_byte)
-                        # if (new_byte == "10001101"):
-                        #     print("haha")
 
                     new_symbol = chr(int(new_symbol, 2))
                     decoded_string += new_symbol
