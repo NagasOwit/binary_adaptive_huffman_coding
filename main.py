@@ -119,7 +119,7 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     return j
 
 
-def Compress():
+def Compress(input):
 
     string_to_encode = ""
     bit_array = [0] * 8
@@ -127,7 +127,7 @@ def Compress():
 
     print("Compressing...")
 
-    with open("test.txt", "rb") as fh:
+    with open(input, "rb") as fh:
 
         b = fh.read(1)
 
@@ -267,23 +267,20 @@ def Decompress():
         f.write(decoded_string)
         f.close()
 
-
-#Testing part of the application
-
-#text_to_compress = open("fullBible.txt", "r").read()
-#text_to_compress = "barbaraabarboraubaru"
-#text_to_compress = "tom marta at"
+print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
+input = input()
+print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
 start = timeit.timeit()
-Compress()
+Compress(input)
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 Decompress()
 end = timeit.timeit()
 
-original_size = os.path.getsize("test.txt")
+original_size = os.path.getsize(input)
 compressed_size = os.path.getsize("compressed_file")
 print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
-print("Původní velikost souboru byla: " + str() + " bajtů.\nPo zkomprimování byla velikost: " + str() + " bajtů.")
+print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
 print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
