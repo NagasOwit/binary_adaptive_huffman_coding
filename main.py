@@ -104,7 +104,7 @@ def WriteToBuffer(bit_array, buffer):
     an_integer = int(a_string, 2)
     buffer.append(an_integer)
 
-    print(a_string)
+    #print(a_string)
 
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
@@ -125,7 +125,7 @@ def Compress():
 
     print("Compressing...")
 
-    with open("test.txt", "rb") as fh:
+    with open("book_of_genesis.txt", "rb") as fh:
 
         b = fh.read(1)
 
@@ -144,7 +144,7 @@ def Compress():
                 character_encoding = bin(ord(element))[2:]
                 if (len(character_encoding) < 8):
                     character_encoding = character_encoding.zfill(8)
-                    print("Code of: " + element + " is: " + character_encoding)
+                    #print("Code of: " + element + " is: " + character_encoding)
                 
                 first_part = character_encoding[0:8-j]
                 second_part = character_encoding[8-j:8]
@@ -201,8 +201,9 @@ def Decompress():
     with open("compressed_file", "rb") as fh:
         
         b = fh.read(1)
-        decoded_string = b.decode("utf-8")
-        AddNewSymbolToTree(b.decode("utf-8"))
+        new_symbol = b.decode("utf-8")
+        AddNewSymbolToTree(new_symbol)
+        decoded_string = new_symbol
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
@@ -216,6 +217,9 @@ def Decompress():
             #print("Byte, se kterým se pracuje: " + new_byte)
 
             for i in range(len(new_byte)):
+
+                if (new_symbol == '\0'):
+                    break
 
                 working_byte += new_byte[i]
 
