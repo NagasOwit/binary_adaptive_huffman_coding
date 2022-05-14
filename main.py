@@ -180,6 +180,11 @@ def Compress():
     epsilon_code = ReturnCodeOfNewSymbol()
     j = WriteStringToBitArrayThenBuffer(bit_array, j, epsilon_code)
 
+    for x in symbol_list:
+        if x.symbol == "j":
+            print("symbol: " + x.symbol + " code: " + x.code + " children " +  str(x.left_child) + " " + str(x.right_child)) 
+            print("epsilon_symbol: " + epsilon_code)
+
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
 
