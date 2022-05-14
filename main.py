@@ -192,8 +192,10 @@ def Compress():
     #         print("symbol: " + x.symbol + " code: " + x.code + " children " +  str(x.left_child) + " " + str(x.right_child)) 
     #         print("epsilon_symbol: " + epsilon_code)
 
+    fh.close()
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
+    f.close()
 
 def Decompress():
     
