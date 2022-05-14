@@ -1,5 +1,5 @@
 import sys
-import timeit
+import time
 import os
 
 class Node:
@@ -246,6 +246,8 @@ def Decompress():
                         new_byte = string_byte_to_fill
 
                     new_symbol = chr(int(new_symbol, 2))
+                    if (new_symbol == '\0'):
+                        break
                     decoded_string += new_symbol.encode("utf-8")
                     AddNewSymbolToTree(new_symbol)
 
@@ -271,13 +273,13 @@ print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
 input = input()
 print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
-start = timeit.timeit()
+start = time.time()
 Compress(input)
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 Decompress()
-end = timeit.timeit()
+end = time.time()
 
 original_size = os.path.getsize(input)
 compressed_size = os.path.getsize("compressed_file")
