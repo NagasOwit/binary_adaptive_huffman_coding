@@ -119,61 +119,64 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     return j
 
 
-def Compress(input):
-
+def Compress():
+    
     string_to_encode = ""
     bit_array = [0] * 8
     j = 0
 
     print("Compressing...")
 
-    for element in input:
+    with open("book_of_genesis.txt", "rb") as fh:
 
-        new_symbol = not element in all_symbols
+        b = fh.read(1)
 
-        # if (element == 'o'):
-        #     for x in symbol_list:
-        #         if (x.symbol):
-        #             print("symbol: " + "{}".format(x.symbol) + " count: " + "{}".format(x.count))
+        while b:
 
-        if (new_symbol):
-            
-            all_symbols.append(element)
-            string_to_encode = ReturnCodeOfNewSymbol()
-            j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
+            element = b.decode("utf-8")
 
-            character_encoding = bin(ord(element))[2:]
-            if (len(character_encoding) < 8):
-                character_encoding = character_encoding.zfill(8)
-                #print("Code of: " + element + " is: " + character_encoding)
-            
-            first_part = character_encoding[0:8-j]
-            second_part = character_encoding[8-j:8]
+            new_symbol = not element in all_symbols
 
-            for k in range(len(first_part)):
-                bit_array[k+j] = int(first_part[k])
+            if (new_symbol):
+                
+                all_symbols.append(element)
+                string_to_encode = ReturnCodeOfNewSymbol()
+                j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
-            WriteToBuffer(bit_array, buffer)
-    
-            original_j = j
-            j = -1
+                character_encoding = bin(ord(element))[2:]
+                if (len(character_encoding) < 8):
+                    character_encoding = character_encoding.zfill(8)
+                    #print("Code of: " + element + " is: " + character_encoding)
+                
+                first_part = character_encoding[0:8-j]
+                second_part = character_encoding[8-j:8]
 
-            if (second_part):
-                for k in range(len(second_part)):
-                    bit_array[k] = int(second_part[k])
-                j = original_j - 1
+                for k in range(len(first_part)):
+                    bit_array[k+j] = int(first_part[k])
 
-            j += 1
-            
-            AddNewSymbolToTree(element)
+                WriteToBuffer(bit_array, buffer)
+        
+                original_j = j
+                j = -1
 
-        else:
-            string_to_encode = IncreaseOccurenceAndReturnCode(element)
-            j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
+                if (second_part):
+                    for k in range(len(second_part)):
+                        bit_array[k] = int(second_part[k])
+                    j = original_j - 1
 
-        if (j % 8 == 0 and j != 0):
-            WriteToBuffer(bit_array, buffer)
-            j = 0
+                j += 1
+                
+                AddNewSymbolToTree(element)
+
+            else:
+                string_to_encode = IncreaseOccurenceAndReturnCode(element)
+                j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
+
+            if (j % 8 == 0 and j != 0):
+                WriteToBuffer(bit_array, buffer)
+                j = 0
+
+            b = fh.read(1)
     
     # Zbytek kódu, co se nemusí vlézt do 1 byte a zároveň zakódování epsilon symbolu.
     for i in range(8-j):
@@ -267,12 +270,10 @@ def Decompress():
 #Testing part of the application
 
 #text_to_compress = open("fullBible.txt", "r").read()
-text_to_compress = open("book_of_genesis.txt", "r").read()
 #text_to_compress = "barbaraabarboraubaru"
 #text_to_compress = "tom marta at"
 
-Compress(text_to_compress)
-
+Compress()
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
