@@ -175,12 +175,10 @@ def Compress():
                 j = 0
 
             b = fh.read(1)
-
+    
+    # Zbytek kódu, co se nemusí vlézt do 1 byte a zároveň zakódování epsilon symbolu.
     epsilon_code = ReturnCodeOfNewSymbol()
-
-    for i in range(len(epsilon_code)):
-        if (i + 1 % 8 == 0 and i != 0):
-            WriteToBuffer(bit_array, buffer)
+    j = WriteStringToBitArrayThenBuffer(bit_array, j, epsilon_code)
 
     with open("compressed_file", 'bw') as f:
         f.write(buffer)
