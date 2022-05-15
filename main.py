@@ -150,7 +150,7 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
 # Pokud se jedná už o několikátý výskyt symbolu, zvýší se četnost a vrátí se kód symbolu.
 # Průběžně se kontroluje, jestli se má zapsat bit_array do bufferu.
 
-def Compress(input):
+def Compress(file_name, file_extension):
 
     string_to_encode = ""
     bit_array = [0] * 8
@@ -158,7 +158,7 @@ def Compress(input):
 
     print("Compressing...")
 
-    with open(input, "rb") as fh:
+    with open(file_name + file_extension, "rb") as fh:
 
         element = fh.read(1)
 
@@ -218,7 +218,7 @@ def Compress(input):
         WriteToBuffer(bit_array, buffer)
 
     fh.close()
-    with open("compressed_file", 'bw') as f:
+    with open(file_name + "_compressed", 'bw') as f:
         f.write(buffer)
     f.close()
 
@@ -237,10 +237,10 @@ def Compress(input):
 # do slepého bodu, uzel nemá ani pravého, ani levého potomka, tzn. symbol se
 # opakuje, vrátí se jeho kód, zvýší četnost, strom se aktualizuje.
 
-def Decompress():
+def Decompress(file_name, file_extension):
     
     print("Decompressing...")
-    with open("compressed_file", "rb") as fh:
+    with open(file_name + "_compressed", "rb") as fh:
         
         element = fh.read(1)
         AddNewSymbolToTree(element)
@@ -301,27 +301,51 @@ def Decompress():
                     current_index = 0
 
         fh.close()
-        f = open("uncompressed_file" + file_extension, "wb")
+        f = open(file_name + "_uncompressed" + file_extension, "wb")
         f.write(decoded_string)
         f.close()
 
-print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
-user_input = input()
-print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
-user_input, file_extension = os.path.splitext(user_input)
-user_input = user_input + file_extension
+# Program runtime.
 
-start = time.time()
-Compress(user_input)
-escape_symbol = Node("", 0, None, None, 0, "")
-symbol_list = [] #list of symbols
-symbol_list.append(escape_symbol)
-Decompress()
-end = time.time()
+program_running = True
 
-original_size = os.path.getsize(user_input)
-compressed_size = os.path.getsize("compressed_file")
-print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
-print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
-print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
+while (program_running):
+
+    escape_symbol = Node("", 0, None, None, 0, "")
+    symbol_list = [] #list of symbols
+    symbol_list.append(escape_symbol)
+    buffer = bytearray()
+    all_symbols = []
+
+    file_not_found = True
+    while(file_not_found):
+        user_input = input("Zadejte název souboru (i s příponou), který chcete zkomprimovat: ")
+        if os.path.isfile(user_input):            
+            file_not_found = False
+
+    print("Zkomprimovaný soubor se uloží do souboru stejného názvu + '_compressed'," +
+    " dekomprimovaný soubor se uloží do souboru stejného názvu a přípony + _'uncompressed'.") 
+
+    file_name, file_extension = os.path.splitext(user_input)
+
+    start = time.time()
+    Compress(file_name, file_extension)
+    escape_symbol = Node("", 0, None, None, 0, "")
+    symbol_list = [] #list of symbols
+    symbol_list.append(escape_symbol)
+    buffer = bytearray()
+    all_symbols = []
+    Decompress(file_name, file_extension)
+    end = time.time()
+
+    original_size = os.path.getsize(user_input)
+    compressed_size = os.path.getsize(file_name + "_compressed")
+    print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
+    print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
+    print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
+
+    print("Chcete program ukončit?: Y/N")
+    end_program = input()
+    if (end_program.lower() == 'y'):
+        program_running = False
