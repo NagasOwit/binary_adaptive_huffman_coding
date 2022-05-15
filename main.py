@@ -197,18 +197,18 @@ def Decompress():
     print("Decompressing...")
     with open("compressed_file", "rb") as fh:
         
-        b = fh.read(1)
-        AddNewSymbolToTree(b)
+        element = fh.read(1)
+        AddNewSymbolToTree(element)
 
-        decoded_string = b
+        decoded_string = element
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
 
-        while b:
+        while element:
 
-            b = fh.read(1)
-            new_byte = bin(int.from_bytes(b, "big"))[2:]
+            element = fh.read(1)
+            new_byte = bin(int.from_bytes(element, "big"))[2:]
             new_byte = new_byte.zfill(8)
             
             #print("Byte, se kterým se pracuje: " + new_byte)
