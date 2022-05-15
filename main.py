@@ -142,7 +142,9 @@ def Compress(input):
                 string_to_encode = ReturnCodeOfNewSymbol()
                 j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
-                character_encoding = bin(ord(element))[2:]
+                character_encoding = int.from_bytes(element, "big")
+                character_encoding = bin(character_encoding)[2:]
+
                 if (len(character_encoding) < 8):
                     character_encoding = character_encoding.zfill(8)
                     #print("Code of: " + element + " is: " + character_encoding)
