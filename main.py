@@ -15,8 +15,7 @@ class Node:
 
 # Na začátku se vytvoří symbol_list a vloží se do něj escape_symbol, inicializuje se buffer, pomocí
 # kterého se pak zapisují jednotlivé byty do výstupního souboru.
-
-# list all_symbols slouží pouze k rychlé kontrole, zda symbol už existuje v stromu/listu
+# List all_symbols slouží pouze k rychlé kontrole, zda symbol už existuje v stromu/listu.
 
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
@@ -24,14 +23,16 @@ symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 all_symbols = []
 
-def RecalculateTree(index, code):
+# Metoda, která se volá po tom, co se updatuje strom, aktualizuje všechny kódy uzlů.
+
+def Recalculate(index, code):
 
     symbol_list[index].code = code
 
     if (symbol_list[index].left_child is not None and symbol_list[index].right_child is not None):
 
-        RecalculateTree(symbol_list[index].left_child, code + "0")
-        RecalculateTree(symbol_list[index].right_child, code + "1")
+        Recalculate(symbol_list[index].left_child, code + "0")
+        Recalculate(symbol_list[index].right_child, code + "1")
     
 
 def UpdateTree(index):
@@ -75,7 +76,7 @@ def UpdateTree(index):
                 index = j
                 break
 
-    RecalculateTree(0, "")    
+    Recalculate(0, "")    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
@@ -265,25 +266,23 @@ def Decompress():
         f.write(decoded_string)
         f.close()
 
-def TestApplication():      
+print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
+user_input = input()
+print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
-    print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
-    input = input()
-    print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
+user_input, file_extension = os.path.splitext(user_input)
+user_input = user_input + file_extension
 
-    input, file_extension = os.path.splitext(input)
-    input = input + file_extension
+start = time.time()
+Compress(user_input)
+escape_symbol = Node("", 0, None, None, 0, "")
+symbol_list = [] #list of symbols
+symbol_list.append(escape_symbol)
+Decompress()
+end = time.time()
 
-    start = time.time()
-    Compress(input)
-    escape_symbol = Node("", 0, None, None, 0, "")
-    symbol_list = [] #list of symbols
-    symbol_list.append(escape_symbol)
-    Decompress()
-    end = time.time()
-
-    original_size = os.path.getsize(input)
-    compressed_size = os.path.getsize("compressed_file")
-    print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
-    print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
-    print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")  
+original_size = os.path.getsize(user_input)
+compressed_size = os.path.getsize("compressed_file")
+print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
+print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
+print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
