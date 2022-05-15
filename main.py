@@ -145,8 +145,10 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
 # rozdělit do 2 bajtů.
 #
 # Pokud se tak stane, zapíše se bit_array do bufferu a rovnou se nastaví index
-# na původní hodnotu.
-#
+# na původní hodnotu, jinak se nastaví j na 0.
+
+# Pokud se jedná už o několikátý výskyt symbolu, zvýší se četnost a vrátí se kód symbolu.
+# Průběžně se kontroluje, jestli se má zapsat bit_array do bufferu.
 
 def Compress(input):
 
@@ -220,6 +222,17 @@ def Compress(input):
         f.write(buffer)
     f.close()
 
+# Hlavní metoda dekomprimace, taky se vytváří strom, respektive list.
+# Načte se nový byte, může se jednat buď o zcela nový symbol, část nového
+# symbolu, nebo rovnou celý nový symbol. Jede se po bitech z načteného bytu
+# a průběžně se kontroluje, zda zrovna kód s kterým se pracuje odpovídá
+# epsilon symbolu, jestliže ano, pak další byte bude nový symbol, často se,
+# stejně jako v průběhu komprese může stát, že bude nový symbol uložen do
+# 2 bytů, v tom případě je situace podobná jako v kompresi.
+#
+# Nový symbol se narozdíl od komprimace ukládá jako byte a ne jako číslo,
+# chtěl jsem experimentovat s optimalizací, ale nedošlo na to.
+
 def Decompress():
     
     print("Decompressing...")
@@ -233,7 +246,6 @@ def Decompress():
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
-        end = False
 
         while element:
 
