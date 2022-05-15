@@ -230,15 +230,16 @@ def Decompress():
                 if (working_byte == epsilon_symbol):
 
                     if (i == 7):
-                        new_symbol = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        new_symbol = bin(int.from_bytes(fh.read(1), "big"))[2:]
                     else:
                         new_symbol = new_byte[i+1:]
-                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), "big"))[2:]
                         string_byte_to_fill = string_byte_to_fill.zfill(8)
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
 
                     new_symbol = chr(int(new_symbol, 2))
+                    
                     if (new_symbol == '\0'):
                         break
                     decoded_string += new_symbol.encode("utf-8")
