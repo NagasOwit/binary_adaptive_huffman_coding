@@ -129,11 +129,10 @@ def Compress(input):
 
     with open(input, "rb") as fh:
 
-        b = fh.read(1)
+        element = fh.read(1)
 
-        while b:
+        while element:
 
-            element = b
             new_symbol = not element in all_symbols
 
             if (new_symbol):
@@ -144,10 +143,9 @@ def Compress(input):
 
                 character_encoding = int.from_bytes(element, "big")
                 character_encoding = bin(character_encoding)[2:]
+                character_encoding = character_encoding.zfill(8)
 
-                if (len(character_encoding) < 8):
-                    character_encoding = character_encoding.zfill(8)
-                    #print("Code of: " + element + " is: " + character_encoding)
+                #print("Code of: " + element + " is: " + character_encoding)
                 
                 first_part = character_encoding[0:8-j]
                 second_part = character_encoding[8-j:8]
@@ -177,7 +175,7 @@ def Compress(input):
                 WriteToBuffer(bit_array, buffer)
                 j = 0
 
-            b = fh.read(1)
+            element = fh.read(1)
     
     # Zbytek kódu, co se nemusí vlézt do 1 byte a zároveň zakódování epsilon symbolu.
     for i in range(8-j):
@@ -200,9 +198,7 @@ def Decompress():
     with open("compressed_file", "rb") as fh:
         
         b = fh.read(1)
-        new_symbol = int.from_bytes(b, "big")
-        new_symbol = bin(new_symbol)[2:]
-        AddNewSymbolToTree(new_symbol)
+        AddNewSymbolToTree(b)
 
         decoded_string = b
         epsilon_symbol = "1"
