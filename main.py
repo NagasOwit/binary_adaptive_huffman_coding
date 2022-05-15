@@ -94,7 +94,7 @@ def AddNewSymbolToTree(symbol):
 def IncreaseOccurenceAndReturnCode(symbol):
     
     for x in range(len(symbol_list)):
-        if (symbol_list[x].symbol == symbol):
+        if (symbol_list[x].symbol == int.from_bytes(symbol, "big")):
             code = symbol_list[x].code
             UpdateTree(symbol_list[x].index)
             return code  
@@ -141,7 +141,8 @@ def Compress(input):
                 string_to_encode = ReturnCodeOfNewSymbol()
                 j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
-                character_encoding = int.from_bytes(element, "big")
+                character_encoding = int.from_bytes(element, "big")                                
+                AddNewSymbolToTree(character_encoding)
                 character_encoding = bin(character_encoding)[2:]
                 character_encoding = character_encoding.zfill(8)
 
@@ -164,8 +165,6 @@ def Compress(input):
                     j = original_j - 1
 
                 j += 1
-                
-                AddNewSymbolToTree(element)
 
             else:
                 string_to_encode = IncreaseOccurenceAndReturnCode(element)
