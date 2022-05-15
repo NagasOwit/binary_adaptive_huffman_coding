@@ -305,23 +305,42 @@ def Decompress():
         f.write(decoded_string)
         f.close()
 
-print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
-user_input = input()
-print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
+# Program runtime.
 
-user_input, file_extension = os.path.splitext(user_input)
-user_input = user_input + file_extension
+program_running = True
 
-start = time.time()
-Compress(user_input)
-escape_symbol = Node("", 0, None, None, 0, "")
-symbol_list = [] #list of symbols
-symbol_list.append(escape_symbol)
-Decompress()
-end = time.time()
+while (program_running):
 
-original_size = os.path.getsize(user_input)
-compressed_size = os.path.getsize("compressed_file")
-print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
-print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
-print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
+    escape_symbol = Node("", 0, None, None, 0, "")
+    symbol_list = [] #list of symbols
+    symbol_list.append(escape_symbol)
+    buffer = bytearray()
+    all_symbols = []
+
+    print("Zadejte název souboru (i s příponou), který chcete zkomprimovat: ")
+    user_input = input()
+    print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
+
+    user_input, file_extension = os.path.splitext(user_input)
+    user_input = user_input + file_extension
+
+    start = time.time()
+    Compress(user_input)
+    escape_symbol = Node("", 0, None, None, 0, "")
+    symbol_list = [] #list of symbols
+    symbol_list.append(escape_symbol)
+    buffer = bytearray()
+    all_symbols = []
+    Decompress()
+    end = time.time()
+
+    original_size = os.path.getsize(user_input)
+    compressed_size = os.path.getsize("compressed_file")
+    print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
+    print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
+    print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
+
+    print("Chcete program ukončit?: Y/N")
+    end_program = input()
+    if (end_program.lower() == 'y'):
+        program_running = False
