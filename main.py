@@ -201,6 +201,7 @@ def Decompress():
         AddNewSymbolToTree(element)
 
         decoded_string = element
+        new_symbol = element
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
@@ -238,11 +239,12 @@ def Decompress():
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
 
-                    new_symbol = chr(int(new_symbol, 2))
-                    
+                    new_symbol = int(new_symbol, 2)
+                    new_symbol = new_symbol.to_bytes(1, "big")
+
                     if (new_symbol == '\0'):
                         break
-                    decoded_string += new_symbol.encode("utf-8")
+                    decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
 
                     epsilon_symbol = symbol_list[-1].code
@@ -251,7 +253,7 @@ def Decompress():
 
                 elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
                     
-                    decoded_string += symbol_list[current_index].symbol.encode("utf-8")
+                    decoded_string += symbol_list[current_index].symbol
                     UpdateTree(current_index)
 
                     epsilon_symbol = symbol_list[-1].code
