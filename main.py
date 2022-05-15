@@ -133,12 +133,11 @@ def Compress(input):
 
         while b:
 
-            element = b.decode("utf-8")
-
+            element = b
             new_symbol = not element in all_symbols
 
             if (new_symbol):
-                
+
                 all_symbols.append(element)
                 string_to_encode = ReturnCodeOfNewSymbol()
                 j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
@@ -187,12 +186,6 @@ def Compress(input):
 
     if (j != 0):
         WriteToBuffer(bit_array, buffer)
-
-
-    # for x in symbol_list:
-    #     if x.symbol == "j":
-    #         print("symbol: " + x.symbol + " code: " + x.code + " children " +  str(x.left_child) + " " + str(x.right_child)) 
-    #         print("epsilon_symbol: " + epsilon_code)
 
     fh.close()
     with open("compressed_file", 'bw') as f:
