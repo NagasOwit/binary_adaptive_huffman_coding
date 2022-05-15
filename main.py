@@ -255,13 +255,16 @@ def Decompress():
                     current_index = 0
 
         fh.close()
-        f = open("uncompressed_file", "wb")
+        f = open("uncompressed_file" + file_extension, "wb")
         f.write(decoded_string)
         f.close()
 
 print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
 input = input()
 print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
+
+input, file_extension = os.path.splitext(input)
+input = input + file_extension
 
 start = time.time()
 Compress(input)
