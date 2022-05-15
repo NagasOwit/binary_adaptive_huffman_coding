@@ -200,8 +200,10 @@ def Decompress():
     with open("compressed_file", "rb") as fh:
         
         b = fh.read(1)
-        new_symbol = b.decode("utf-8")
+        new_symbol = int.from_bytes(b, "big")
+        new_symbol = bin(new_symbol)[2:]
         AddNewSymbolToTree(new_symbol)
+
         decoded_string = b
         epsilon_symbol = "1"
         working_byte = ""
@@ -210,7 +212,7 @@ def Decompress():
         while b:
 
             b = fh.read(1)
-            new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
+            new_byte = bin(int.from_bytes(b, "big"))[2:]
             new_byte = new_byte.zfill(8)
             
             #print("Byte, se kterým se pracuje: " + new_byte)
