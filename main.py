@@ -211,6 +211,7 @@ def Decompress():
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
+        end = False
 
         while b:
 
@@ -222,7 +223,7 @@ def Decompress():
 
             for i in range(len(new_byte)):
 
-                if (new_symbol == '\0'):
+                if (end):
                     break
 
                 working_byte += new_byte[i]
@@ -246,9 +247,11 @@ def Decompress():
                         new_byte = string_byte_to_fill
 
                     new_symbol = chr(int(new_symbol, 2))
-                    if (new_symbol == '\0'):
+                    if (new_byte == "00000000"):
+                        end = True
                         break
-                    decoded_string += new_symbol
+
+                    decoded_string +=  bytes(new_symbol, 'ansi')
                     AddNewSymbolToTree(new_symbol)
 
                     epsilon_symbol = symbol_list[-1].code
@@ -256,8 +259,8 @@ def Decompress():
                     current_index = 0
 
                 elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
-                    
-                    decoded_string += symbol_list[current_index].symbol
+
+                    decoded_string += bytes(symbol_list[current_index].symbol, 'ansi')
                     UpdateTree(current_index)
 
                     epsilon_symbol = symbol_list[-1].code
