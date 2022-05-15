@@ -123,7 +123,8 @@ def WriteToBuffer(bit_array, buffer):
 
     #print(a_string)
 
-# 
+# Naplňuje bit_array, pokud je plné, zapíše se do bufferu, pokud ne, vrátí se
+# index, tzn. bit_array a zbytek lze zapsat, aktuální stav je udržován indexem.
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
@@ -134,6 +135,18 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
                     j = 0
     return j
 
+# Hlavní metoda, která komprimuje vstup, načte input soubor, otestuje, zda je
+# první výskyt symbolu, pokud ano, tak se symbol přidá do pole all_symbols.
+#
+# Z bytu se utvoří číslo, které se přidá do stromu jako nový symbol.
+
+# Pak se zakódování symbolu (číslo bajtu) musí zapsat na výstup, ale tady pozor,
+# protože index bit_array nemusí být 0, musí se zakódování symbolu většinou
+# rozdělit do 2 bajtů.
+#
+# Pokud se tak stane, zapíše se bit_array do bufferu a rovnou se nastaví index
+# na původní hodnotu.
+#
 
 def Compress(input):
 
