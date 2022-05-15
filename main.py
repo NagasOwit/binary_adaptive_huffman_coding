@@ -216,9 +216,6 @@ def Decompress():
 
             for i in range(len(new_byte)):
 
-                if (end):
-                    break
-
                 working_byte += new_byte[i]
 
                 if (new_byte[i] == "0"):
@@ -241,10 +238,6 @@ def Decompress():
 
                     new_symbol = int(new_symbol, 2)
                     new_symbol = new_symbol.to_bytes(1, "big")
-
-                    if (new_symbol == bytearray(1)):
-                        end = True
-                        break
                     
                     decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
