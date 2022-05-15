@@ -240,7 +240,7 @@ def Compress(file_name, file_extension):
 def Decompress(file_name, file_extension):
     
     print("Decompressing...")
-    with open("compressed_file", "rb") as fh:
+    with open(file_name + "_compressed", "rb") as fh:
         
         element = fh.read(1)
         AddNewSymbolToTree(element)
@@ -340,7 +340,7 @@ while (program_running):
     end = time.time()
 
     original_size = os.path.getsize(user_input)
-    compressed_size = os.path.getsize(file_name)
+    compressed_size = os.path.getsize(file_name + "_compressed")
     print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
     print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
     print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
