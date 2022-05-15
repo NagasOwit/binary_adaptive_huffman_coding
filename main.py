@@ -233,6 +233,10 @@ def Compress(input):
 # Nový symbol se narozdíl od komprimace ukládá jako byte a ne jako číslo,
 # chtěl jsem experimentovat s optimalizací, ale nedošlo na to.
 
+# Pokud se výskyt symbolu opakuje, pozná se to podle toho, že se v kódu došlo
+# do slepého bodu, uzel nemá ani pravého, ani levého potomka, tzn. symbol se
+# opakuje, vrátí se jeho kód, zvýší četnost, strom se aktualizuje.
+
 def Decompress():
     
     print("Decompressing...")
