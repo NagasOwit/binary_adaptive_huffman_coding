@@ -1,6 +1,8 @@
 import time
 import os
 
+# Třída reprezentující uzel/prvek v listu.
+
 class Node:
 
     def __init__(self, symbol, index, left_child, right_child, count, code):
@@ -11,12 +13,16 @@ class Node:
         self.count = count
         self.code = code
 
+# Na začátku se vytvoří symbol_list a vloží se do něj escape_symbol, inicializuje se buffer, pomocí
+# kterého se pak zapisují jednotlivé byty do výstupního souboru.
+
+# list all_symbols slouží pouze k rychlé kontrole, zda symbol už existuje v stromu/listu
+
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 all_symbols = []
-readbuffer = ""
 
 def RecalculateTree(index, code):
 
@@ -259,23 +265,25 @@ def Decompress():
         f.write(decoded_string)
         f.close()
 
-print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
-input = input()
-print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
+def TestApplication():      
 
-input, file_extension = os.path.splitext(input)
-input = input + file_extension
+    print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
+    input = input()
+    print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
-start = time.time()
-Compress(input)
-escape_symbol = Node("", 0, None, None, 0, "")
-symbol_list = [] #list of symbols
-symbol_list.append(escape_symbol)
-Decompress()
-end = time.time()
+    input, file_extension = os.path.splitext(input)
+    input = input + file_extension
 
-original_size = os.path.getsize(input)
-compressed_size = os.path.getsize("compressed_file")
-print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
-print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
-print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")
+    start = time.time()
+    Compress(input)
+    escape_symbol = Node("", 0, None, None, 0, "")
+    symbol_list = [] #list of symbols
+    symbol_list.append(escape_symbol)
+    Decompress()
+    end = time.time()
+
+    original_size = os.path.getsize(input)
+    compressed_size = os.path.getsize("compressed_file")
+    print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
+    print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")
+    print("Soubor je menší o: " + str(round(100 - (100 / original_size * compressed_size), 2)) + " %")  
