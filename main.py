@@ -25,15 +25,17 @@ all_symbols = []
 
 # Metoda, která se volá po tom, co se updatuje strom, aktualizuje všechny kódy uzlů.
 
-def Recalculate(index, code):
+def RecalculateTree(index, code):
 
     symbol_list[index].code = code
 
     if (symbol_list[index].left_child is not None and symbol_list[index].right_child is not None):
 
-        Recalculate(symbol_list[index].left_child, code + "0")
-        Recalculate(symbol_list[index].right_child, code + "1")
+        RecalculateTree(symbol_list[index].left_child, code + "0")
+        RecalculateTree(symbol_list[index].right_child, code + "1")
     
+# Metoda, která se volá poté, co se přidá nový symbol/se zvýší výskyt symbolu. Pokud má nějaký uzel
+# s menším index menší count, uzly se i s poduzly prohodí. (řešeno na úrovni indexů) 
 
 def UpdateTree(index):
     
@@ -76,11 +78,14 @@ def UpdateTree(index):
                 index = j
                 break
 
-    Recalculate(0, "")    
+    RecalculateTree(0, "")
+
+# Epsilon je vždy posledním symbolem v listu, proto lze jeho kód získat takto    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
     
+# Přidání nového symbolu do stromu.
 
 def AddNewSymbolToTree(symbol):
 
@@ -97,6 +102,8 @@ def AddNewSymbolToTree(symbol):
 
     UpdateTree(left_child.index)
 
+# Zvýšení četnosti symbolu ve stromu.
+
 def IncreaseOccurenceAndReturnCode(symbol):
     
     for x in range(len(symbol_list)):
@@ -104,6 +111,8 @@ def IncreaseOccurenceAndReturnCode(symbol):
             code = symbol_list[x].code
             UpdateTree(symbol_list[x].index)
             return code  
+
+# Symboly a jejich kódy se zapisují po 8 bitech (1 bajtu) z bit_array do bufferu
 
 def WriteToBuffer(bit_array, buffer):
 
@@ -114,6 +123,7 @@ def WriteToBuffer(bit_array, buffer):
 
     #print(a_string)
 
+# 
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
