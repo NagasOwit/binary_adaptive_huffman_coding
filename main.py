@@ -205,6 +205,7 @@ def Decompress():
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
+        end = False
 
         while element:
 
@@ -216,7 +217,7 @@ def Decompress():
 
             for i in range(len(new_byte)):
 
-                if (new_symbol == bytearray(1)):
+                if (end):
                     break
 
                 working_byte += new_byte[i]
@@ -243,7 +244,9 @@ def Decompress():
                     new_symbol = new_symbol.to_bytes(1, "big")
 
                     if (new_symbol == bytearray(1)):
+                        end = True
                         break
+                    
                     decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
 
