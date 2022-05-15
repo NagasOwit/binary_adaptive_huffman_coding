@@ -1,6 +1,7 @@
-import sys
 import time
 import os
+
+# Třída reprezentující uzel/prvek v listu.
 
 class Node:
 
@@ -12,12 +13,17 @@ class Node:
         self.count = count
         self.code = code
 
+# Na začátku se vytvoří symbol_list a vloží se do něj escape_symbol, inicializuje se buffer, pomocí
+# kterého se pak zapisují jednotlivé byty do výstupního souboru.
+# List all_symbols slouží pouze k rychlé kontrole, zda symbol už existuje v stromu/listu.
+
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 buffer = bytearray() #Starting buffer
 all_symbols = []
-readbuffer = ""
+
+# Metoda, která se volá po tom, co se updatuje strom, aktualizuje všechny kódy uzlů.
 
 def RecalculateTree(index, code):
 
@@ -28,6 +34,8 @@ def RecalculateTree(index, code):
         RecalculateTree(symbol_list[index].left_child, code + "0")
         RecalculateTree(symbol_list[index].right_child, code + "1")
     
+# Metoda, která se volá poté, co se přidá nový symbol/se zvýší výskyt symbolu. Pokud má nějaký uzel
+# s menším index menší count, uzly se i s poduzly prohodí. (řešeno na úrovni indexů) 
 
 def UpdateTree(index):
     
@@ -70,11 +78,14 @@ def UpdateTree(index):
                 index = j
                 break
 
-    RecalculateTree(0, "")    
+    RecalculateTree(0, "")
+
+# Epsilon je vždy posledním symbolem v listu, proto lze jeho kód získat takto    
 
 def ReturnCodeOfNewSymbol():
     return symbol_list[-1].code
     
+# Přidání nového symbolu do stromu.
 
 def AddNewSymbolToTree(symbol):
 
@@ -91,13 +102,17 @@ def AddNewSymbolToTree(symbol):
 
     UpdateTree(left_child.index)
 
+# Zvýšení četnosti symbolu ve stromu.
+
 def IncreaseOccurenceAndReturnCode(symbol):
     
     for x in range(len(symbol_list)):
-        if (symbol_list[x].symbol == symbol):
+        if (symbol_list[x].symbol == int.from_bytes(symbol, "big")):
             code = symbol_list[x].code
             UpdateTree(symbol_list[x].index)
             return code  
+
+# Symboly a jejich kódy se zapisují po 8 bitech (1 bajtu) z bit_array do bufferu
 
 def WriteToBuffer(bit_array, buffer):
 
@@ -108,6 +123,8 @@ def WriteToBuffer(bit_array, buffer):
 
     #print(a_string)
 
+# Naplňuje bit_array, pokud je plné, zapíše se do bufferu, pokud ne, vrátí se
+# index, tzn. bit_array a zbytek lze zapsat, aktuální stav je udržován indexem.
 
 def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
     for i in range(len(string_to_encode)):                
@@ -118,6 +135,20 @@ def WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode):
                     j = 0
     return j
 
+# Hlavní metoda, která komprimuje vstup, načte input soubor, otestuje, zda je
+# první výskyt symbolu, pokud ano, tak se symbol přidá do pole all_symbols.
+#
+# Z bytu se utvoří číslo, které se přidá do stromu jako nový symbol.
+
+# Pak se zakódování symbolu (číslo bajtu) musí zapsat na výstup, ale tady pozor,
+# protože index bit_array nemusí být 0, musí se zakódování symbolu většinou
+# rozdělit do 2 bajtů.
+#
+# Pokud se tak stane, zapíše se bit_array do bufferu a rovnou se nastaví index
+# na původní hodnotu, jinak se nastaví j na 0.
+
+# Pokud se jedná už o několikátý výskyt symbolu, zvýší se četnost a vrátí se kód symbolu.
+# Průběžně se kontroluje, jestli se má zapsat bit_array do bufferu.
 
 def Compress(input):
 
@@ -129,11 +160,10 @@ def Compress(input):
 
     with open(input, "rb") as fh:
 
-        b = fh.read(1)
+        element = fh.read(1)
 
-        while b:
+        while element:
 
-            element = b
             new_symbol = not element in all_symbols
 
             if (new_symbol):
@@ -142,10 +172,12 @@ def Compress(input):
                 string_to_encode = ReturnCodeOfNewSymbol()
                 j = WriteStringToBitArrayThenBuffer(bit_array, j, string_to_encode)
 
-                character_encoding = bin(ord(element))[2:]
-                if (len(character_encoding) < 8):
-                    character_encoding = character_encoding.zfill(8)
-                    #print("Code of: " + element + " is: " + character_encoding)
+                character_encoding = int.from_bytes(element, "big")                                
+                AddNewSymbolToTree(character_encoding)
+                character_encoding = bin(character_encoding)[2:]
+                character_encoding = character_encoding.zfill(8)
+
+                #print("Code of: " + element + " is: " + character_encoding)
                 
                 first_part = character_encoding[0:8-j]
                 second_part = character_encoding[8-j:8]
@@ -164,8 +196,6 @@ def Compress(input):
                     j = original_j - 1
 
                 j += 1
-                
-                AddNewSymbolToTree(element)
 
             else:
                 string_to_encode = IncreaseOccurenceAndReturnCode(element)
@@ -175,7 +205,7 @@ def Compress(input):
                 WriteToBuffer(bit_array, buffer)
                 j = 0
 
-            b = fh.read(1)
+            element = fh.read(1)
     
     # Zbytek kódu, co se nemusí vlézt do 1 byte a zároveň zakódování epsilon symbolu.
     for i in range(8-j):
@@ -192,31 +222,44 @@ def Compress(input):
         f.write(buffer)
     f.close()
 
+# Hlavní metoda dekomprimace, taky se vytváří strom, respektive list.
+# Načte se nový byte, může se jednat buď o zcela nový symbol, část nového
+# symbolu, nebo rovnou celý nový symbol. Jede se po bitech z načteného bytu
+# a průběžně se kontroluje, zda zrovna kód s kterým se pracuje odpovídá
+# epsilon symbolu, jestliže ano, pak další byte bude nový symbol, často se,
+# stejně jako v průběhu komprese může stát, že bude nový symbol uložen do
+# 2 bytů, v tom případě je situace podobná jako v kompresi.
+#
+# Nový symbol se narozdíl od komprimace ukládá jako byte a ne jako číslo,
+# chtěl jsem experimentovat s optimalizací, ale nedošlo na to.
+
+# Pokud se výskyt symbolu opakuje, pozná se to podle toho, že se v kódu došlo
+# do slepého bodu, uzel nemá ani pravého, ani levého potomka, tzn. symbol se
+# opakuje, vrátí se jeho kód, zvýší četnost, strom se aktualizuje.
+
 def Decompress():
     
     print("Decompressing...")
     with open("compressed_file", "rb") as fh:
         
-        b = fh.read(1)
-        new_symbol = b.decode("utf-8")
-        AddNewSymbolToTree(new_symbol)
-        decoded_string = b
+        element = fh.read(1)
+        AddNewSymbolToTree(element)
+
+        decoded_string = element
+        new_symbol = element
         epsilon_symbol = "1"
         working_byte = ""
         current_index = 0
 
-        while b:
+        while element:
 
-            b = fh.read(1)
-            new_byte = bin(int.from_bytes(b, byteorder=sys.byteorder))[2:]
+            element = fh.read(1)
+            new_byte = bin(int.from_bytes(element, "big"))[2:]
             new_byte = new_byte.zfill(8)
             
             #print("Byte, se kterým se pracuje: " + new_byte)
 
             for i in range(len(new_byte)):
-
-                if (new_symbol == '\0'):
-                    break
 
                 working_byte += new_byte[i]
 
@@ -230,18 +273,18 @@ def Decompress():
                 if (working_byte == epsilon_symbol):
 
                     if (i == 7):
-                        new_symbol = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        new_symbol = bin(int.from_bytes(fh.read(1), "big"))[2:]
                     else:
                         new_symbol = new_byte[i+1:]
-                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), byteorder=sys.byteorder))[2:]
+                        string_byte_to_fill = bin(int.from_bytes(fh.read(1), "big"))[2:]
                         string_byte_to_fill = string_byte_to_fill.zfill(8)
                         new_symbol += string_byte_to_fill[:i+1]
                         new_byte = string_byte_to_fill
 
-                    new_symbol = chr(int(new_symbol, 2))
-                    if (new_symbol == '\0'):
-                        break
-                    decoded_string += new_symbol.encode("utf-8")
+                    new_symbol = int(new_symbol, 2)
+                    new_symbol = new_symbol.to_bytes(1, "big")
+                    
+                    decoded_string += new_symbol
                     AddNewSymbolToTree(new_symbol)
 
                     epsilon_symbol = symbol_list[-1].code
@@ -250,7 +293,7 @@ def Decompress():
 
                 elif (symbol_list[current_index].left_child is None and symbol_list[current_index].right_child is None):
                     
-                    decoded_string += symbol_list[current_index].symbol.encode("utf-8")
+                    decoded_string += symbol_list[current_index].symbol
                     UpdateTree(current_index)
 
                     epsilon_symbol = symbol_list[-1].code
@@ -258,23 +301,26 @@ def Decompress():
                     current_index = 0
 
         fh.close()
-        f = open("uncompressed_file", "wb")
+        f = open("uncompressed_file" + file_extension, "wb")
         f.write(decoded_string)
         f.close()
 
 print("Zadejte název souboru i s příponou, který chcete zkomprimovat: ")
-input = input()
+user_input = input()
 print("Zkomprimovaný soubor se uloží do souboru compressed_file, dekomprimovaný soubor se uloží do souboru uncompressed_file.") 
 
+user_input, file_extension = os.path.splitext(user_input)
+user_input = user_input + file_extension
+
 start = time.time()
-Compress(input)
+Compress(user_input)
 escape_symbol = Node("", 0, None, None, 0, "")
 symbol_list = [] #list of symbols
 symbol_list.append(escape_symbol)
 Decompress()
 end = time.time()
 
-original_size = os.path.getsize(input)
+original_size = os.path.getsize(user_input)
 compressed_size = os.path.getsize("compressed_file")
 print("Komprimace a dekomprimace souboru trvala: " + str(round((end - start), 4)) + " sekund.")
 print("Původní velikost souboru byla: " + str(original_size) + " bajtů.\nPo zkomprimování byla velikost: " + str(compressed_size) + " bajtů.")

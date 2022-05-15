@@ -1,2 +1,2 @@
 # binary_adaptive_huffman_coding
-Python implementation of algorithm for compressing and decompressing of binary data.
+Implementace Huffmanova adaptivního kódování (FGK algoritmus) podle slidů z předmětu Komprese dat, který v akademickém roce 2021/2022 učil doc. Mgr. Jan Outrata, Ph.D. Další zdrojem bylo cvičení z téhož předmětu vedené: Mgr. Tomášem Urbancem a pseudokód, z webové stránky: https://www.stringology.org/DataCompression/fgk/index_en.html.
